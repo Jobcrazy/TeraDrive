@@ -58,4 +58,4 @@ This project is divided into two parts: the frontend and the backend. They commu
 
 ### Preview
 1. Launch Chrome and visit the frontend: [http://localhost](http://localhost)
-2. You could check out the backend API document and test the APIs through [http://localhost:8080/swagger](http://localhost:8080/swagger/)
+2. The backend API is on: [http://localhost:3000](http://localhost:3000)
