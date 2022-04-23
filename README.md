@@ -43,7 +43,8 @@ This project is divided into two parts: the frontend and the backend. They commu
 *  Execute the following commands in a CLI:
    ```
    cd /path/to/backend/
-   dotnet watch run
+   npm install
+   npm start
    ```
    the *3rd party dependencies* will be automatically installed, and the **backend** application is running now
 
