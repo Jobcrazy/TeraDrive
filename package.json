@@ -1,0 +1,19 @@
+{
+  "name": "comp-4800-backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "debug": "node %NODE_DEBUG_OPTION% ./bin/www"
+  },
+  "dependencies": {
+    "config": "^3.1.0",
+    "cookie-parser": "^1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.16.4",
+    "express-session": "^1.17.0",
+    "formidable": "^1.2.1",
+    "morgan": "~1.9.0",
+    "mysql": "^2.17.1"
+  }
+}
