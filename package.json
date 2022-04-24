@@ -3,8 +3,8 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "debug": "node %NODE_DEBUG_OPTION% ./bin/www"
+    "start": "node ./server",
+    "debug": "node %NODE_DEBUG_OPTION% ./server"
   },
   "dependencies": {
     "config": "^3.1.0",
