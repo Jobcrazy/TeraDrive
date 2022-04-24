@@ -1,10 +1,10 @@
 {
   "name": "comp-4800-backend",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./www",
-    "debug": "node %NODE_DEBUG_OPTION% ./www"
+    "start": "node ./bin/www",
+    "debug": "node %NODE_DEBUG_OPTION% ./bin/www"
   },
   "dependencies": {
     "config": "^3.1.0",
