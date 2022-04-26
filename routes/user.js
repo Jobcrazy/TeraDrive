@@ -40,7 +40,7 @@ router.post('/login', async function (req, res, next) {
         }
 
         // Login OK
-        req.session.id = result[0].id;
+        req.session.uid = result[0].id;
         req.session.username = result[0].username;
         req.session.isAdmin = result[0].isAdmin;
 
@@ -55,7 +55,7 @@ router.get('/info', auth, async function (req, res, next) {
     try {
         let result = await User.findAll({
             where: {
-                id: req.session.id
+                id: req.session.uid
             }
         });
 
