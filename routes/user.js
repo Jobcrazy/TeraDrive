@@ -7,12 +7,15 @@ const User = require("../model/user");
 
 router.post('/create', async function (req, res, next) {
     try {
+        // Only admin user can create another admin user
+        let isAdmin = req.session.isAdmin ? req.body.admin : false;
+
         await User.create(
             {
                 username: req.body.username,
                 password: req.body.password,
                 email: req.body.email,
-                admin: req.body.admin,
+                admin: isAdmin,
             }
         );
         utils.SendResult(res);
@@ -39,6 +42,7 @@ router.post('/login', async function (req, res, next) {
         // Login OK
         req.session.id = result[0].id;
         req.session.username = result[0].username;
+        req.session.isAdmin = result[0].isAdmin;
 
         utils.SendResult(res);
     } catch (error) {
