@@ -51,8 +51,7 @@ router.get('/info', auth, async function (req, res, next) {
     try {
         let result = await User.findAll({
             where: {
-                username: req.body.username,
-                password: req.body.password,
+                id: req.session.id
             }
         });
 
@@ -61,11 +60,7 @@ router.get('/info', auth, async function (req, res, next) {
             return;
         }
 
-        // Login OK
-        req.session.id = result[0].id;
-        req.session.username = result[0].username;
-
-        utils.SendResult(res);
+        utils.SendResult(res, result[0]);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);
