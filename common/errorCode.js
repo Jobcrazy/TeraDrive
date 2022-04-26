@@ -11,4 +11,8 @@ module.exports = {
         code: 2,
         message: "Wrong username or password",
     },
+    error_login:{
+        code: 3,
+        message: "You have not logged in",
+    }
 };
