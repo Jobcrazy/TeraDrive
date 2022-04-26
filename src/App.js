@@ -1,27 +1,76 @@
-import logo from "./logo.svg";
+import React, { Suspense } from "react";
+import {
+    HashRouter as Router,
+    Route,
+    Redirect,
+    Switch,
+} from "react-router-dom";
+import { ConfigProvider, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import "./App.css";
+import store from "./store";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          React JavaScript Template
-          <br />
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Login = React.lazy(() => import("./components/login/Login"));
+const Main = React.lazy(() => import("./components/main/Main"));
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            bLoading: false,
+        };
+    }
+
+    componentDidMount() {
+        let self = this;
+        this.unsubscribe = store.subscribe(() => {
+            self.setState({
+                bLoading: store.getState().bLoading,
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    render() {
+        return (
+            <Suspense
+                fallback={
+                    <Spin
+                        size="large"
+                        tip="Loading..."
+                        indicator={
+                            <LoadingOutlined style={{ fontSize: 24 }} spin />
+                        }
+                    >
+                        <div className="App" />
+                    </Spin>
+                }
+            >
+                <Spin
+                    size="large"
+                    spinning={this.state.bLoading}
+                    tip="Loading..."
+                    indicator={
+                        <LoadingOutlined style={{ fontSize: 24 }} spin />
+                    }
+                >
+                    <div className="App">
+                        <Router>
+                            <Switch>
+                                <Redirect path="/" to="/login" exact />
+                                <Route path="/login" component={Login} exact />
+                                <Route path="/main" component={Main} />
+                            </Switch>
+                        </Router>
+                    </div>
+                </Spin>
+            </Suspense>
+        );
+    }
 }
 
 export default App;
