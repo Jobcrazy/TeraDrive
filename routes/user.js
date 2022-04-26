@@ -71,4 +71,13 @@ router.get('/info', auth, async function (req, res, next) {
     }
 });
 
+router.get('/logout', auth, async function (req, res, next) {
+    // Logout OK
+    req.session.uid = null;
+    req.session.username = null;
+    req.session.isAdmin = null;
+
+    utils.SendResult(res);
+});
+
 module.exports = router;

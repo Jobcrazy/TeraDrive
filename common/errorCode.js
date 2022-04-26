@@ -3,16 +3,16 @@ module.exports = {
         code: 0,
         message: "Success",
     },
-    error_unknown: {
+    error_login:{
         code: 1,
+        message: "You have not logged in",
+    },
+    error_unknown: {
+        code: 2,
         message: "Unknown Error",
     },
     error_credential: {
-        code: 2,
+        code: 3,
         message: "Wrong username or password",
     },
-    error_login:{
-        code: 3,
-        message: "You have not logged in",
-    }
 };
