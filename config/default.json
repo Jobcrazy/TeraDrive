@@ -1,1 +1,32 @@
-{}
+{
+  "development": {
+    "db": {
+      "mysql": {
+        "host": "localhost",
+        "database": "tera_database",
+        "username": "tera",
+        "password": "RunMmuM28nJFShrx",
+        "port": "3306",
+        "max_connections": 5,
+        "min_connections": 0,
+        "connect_time_out": 5000,
+        "remove_idle_time": 1000
+      }
+    }
+  },
+  "production": {
+    "db": {
+      "mysql": {
+        "host": "remotemysql.com",
+        "database": "9eVzTdq6VW",
+        "username": "9eVzTdq6VW",
+        "password": "TqY3e6uV7s",
+        "port": "3306",
+        "max_connections": 5,
+        "min_connections": 0,
+        "connect_time_out": 5000,
+        "remove_idle_time": 1000
+      }
+    }
+  }
+}

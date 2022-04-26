@@ -3,14 +3,15 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
-
+const syncModels = require("./common/syncModels")
 const indexRouter = require("./routes/index");
+const userRouter = require("./routes/user");
 const app = express();
 
 app.set("trust proxy", 1);
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -40,6 +41,11 @@ app.all("*", function (req, res, next) {
     }
 });
 
+// Sync Models
+syncModels();
+
+// Define Routers
 app.use("/", indexRouter);
+app.use("/api/user", userRouter);
 
 module.exports = app;

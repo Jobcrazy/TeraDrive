@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./server",
-    "debug": "node %NODE_DEBUG_OPTION% ./server"
+    "debug": "node inspect ./server"
   },
   "dependencies": {
     "config": "^3.1.0",
@@ -14,6 +14,7 @@
     "express-session": "^1.17.0",
     "formidable": "^1.2.1",
     "morgan": "~1.9.0",
-    "mysql": "^2.17.1"
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.19.0"
   }
 }
