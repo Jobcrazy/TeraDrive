@@ -14,7 +14,7 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-        window.document.title = "登录";
+        window.document.title = "Login - TeraDrive";
 
         this.checkLogin();
     }
