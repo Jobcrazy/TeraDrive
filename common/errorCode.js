@@ -15,4 +15,16 @@ module.exports = {
         code: 3,
         message: "Wrong username or password",
     },
+    error_no_user: {
+        code: 4,
+        message: "The user doesn't exist",
+    },
+    error_del_sysadmin: {
+        code: 5,
+        message: "You can't delete the system admin",
+    },
+    error_not_admin: {
+        code: 6,
+        message: "You are not an administrator",
+    },
 };
