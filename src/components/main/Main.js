@@ -17,6 +17,7 @@ import "./Main.css";
 const WelcomePage = React.lazy(() => import("../welcome/Welcome"));
 const CasePage = React.lazy(() => import("../case/Case"));
 const StaffPage = React.lazy(() => import("../staff/Staff"));
+const StaffEdit = React.lazy(() => import("../staff/Edit"));
 const CustomerPage = React.lazy(() => import("../customer/Customer"));
 const PasswordPage = React.lazy(() => import("../password/Password"));
 
@@ -180,6 +181,11 @@ class Main extends React.Component {
                             <Route
                                 path="/main/customers"
                                 component={CustomerPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/staff/edit/:id"
+                                component={StaffEdit}
                                 exact
                             />
                         </Switch>

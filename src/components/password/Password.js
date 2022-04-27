@@ -15,6 +15,12 @@ class Password extends React.Component {
 
     componentDidMount() {
         window.document.title = "Change Password";
+
+        let action = {
+            type: "setMenuItem",
+            value: ["/main/password"],
+        };
+        store.dispatch(action);
     }
 
     setLoading(bLoading) {
