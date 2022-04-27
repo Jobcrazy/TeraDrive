@@ -2,6 +2,7 @@
 const User = require("../model/user");
 const Client = require("../model/client")
 const sequelize = require("./sequelize");
+const utils = require("./utils");
 
 // Create default admin
 function createAdmin(){
@@ -18,6 +19,7 @@ function createAdmin(){
                     username: "admin",
                     password: "admin",
                     isAdmin: true,
+                    token: utils.CalcStringMD5("admin" + "admin"),
                 }
             )
             .then(function(){

@@ -17,6 +17,10 @@ const User = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        token: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         isAdmin: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
@@ -25,7 +29,10 @@ const User = sequelize.define(
     },
     {
         timestamps: false,
-        indexes: [{ fields: ["username"], unique: true }],
+        indexes: [
+            { fields: ["username"], unique: true },
+            { fields: ["token"], unique: true },
+        ],
     }
 );
 

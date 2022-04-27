@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const session = require("express-session");
 const syncModels = require("./common/syncModels");
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
@@ -14,21 +13,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
-// Session settings
-app.use(
-    session({
-        secret: "jIPEyvTVBGPu7vfA",
-        resave: true,
-        rolling: true,
-        saveUninitialized: false,
-        cookie: {
-            //secure: true,
-            maxAge: 1000 * 60 * 60, //session expires in 60 minutes
-        },
-    })
-);
 
 // Allow crossed domain requests
 app.all("*", function (req, res, next) {

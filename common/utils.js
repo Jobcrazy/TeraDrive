@@ -92,7 +92,7 @@ const Utils = {
         })
     },
     CalcStringMD5: function (s) {
-        return new Promise(function (resolve, reject) {
+        /*return new Promise(function (resolve, reject) {
             if (!s) {
                 return reject(error_code.error_string);
             }
@@ -100,7 +100,10 @@ const Utils = {
             let c = crypto.createHash('md5');
             c.update(s);
             resolve(c.digest('hex'));
-        })
+        })*/
+        let c = crypto.createHash('md5');
+        c.update(s);
+        return c.digest('hex');
     },
 };
 

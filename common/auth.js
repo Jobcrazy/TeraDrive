@@ -1,14 +1,25 @@
-const utils = require('./utils');
-const error_code = require('./errorCode');
+const utils = require("./utils");
+const error_code = require("./errorCode");
+const User = require("../model/user");
 
 /*
-* This function should be added for any routers when we want to
-* check if a user has logged in.
-*/
+ * This function should be added for any routers when we want to
+ * check if a user has logged in.
+ */
 module.exports = function (req, res, next) {
-    if (req.session.uid) {
-        return next();
-    } else {
-        return utils.SendError(res, error_code.error_login);
-    }
-}
+    User.findAll({
+        where: {
+            token: req.headers.token,
+        },
+    })
+        .then(function (users) {
+            if (users.length) {
+                next();
+            } else {
+                utils.SendError(res, error_code.error_login);
+            }
+        })
+        .catch(function (error) {
+            utils.SendError(res, error);
+        });
+};
