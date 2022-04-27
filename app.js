@@ -6,6 +6,7 @@ const session = require("express-session");
 const syncModels = require("./common/syncModels")
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
+const clientRouter = require("./routes/client");
 const app = express();
 
 app.set("trust proxy", 1);
@@ -47,5 +48,6 @@ syncModels();
 // Define Routers
 app.use("/", indexRouter);
 app.use("/api/user", userRouter);
+app.use("/api/client", clientRouter);
 
 module.exports = app;
