@@ -63,7 +63,7 @@ class Main extends React.Component {
 
         let self = this;
         axios
-            .get(utils.getDomain() + "/api/user/logout")
+            .get(utils.getDomain() + "api/user/logout")
             .then(function (res) {
                 if (0 === res.data.code || 1 == res.data.code) {
                     self.props.history.push("/");

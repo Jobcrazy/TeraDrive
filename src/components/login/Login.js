@@ -33,7 +33,7 @@ class Login extends React.Component {
 
         let self = this;
         axios
-            .post(utils.getDomain() + "/api/user/login", values)
+            .post(utils.getDomain() + "api/user/login", values)
             .then(function (res) {
                 if (0 === res.data.code) {
                     self.props.history.push("/main");
@@ -51,7 +51,7 @@ class Login extends React.Component {
     checkLogin() {
         let self = this;
         axios
-            .get(utils.getDomain() + "/api/user/info", {})
+            .get(utils.getDomain() + "api/user/info", {})
             .then(function (res) {
                 if (0 === res.data.code) {
                     self.props.history.push("/main");

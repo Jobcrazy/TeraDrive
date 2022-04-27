@@ -1,15 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Space, Row, Col, Popconfirm, Table, message, Button } from "antd";
+import { Row, Form, Col, Input, Button, message } from "antd";
 import axios from "axios";
-import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
+import Utils from "../../common/Utils";
+import "../../store";
 import store from "../../store";
+import "./Password.css";
 
 class Password extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.onFinish = this.onFinish.bind(this);
+    }
+
+    componentDidMount() {
+        window.document.title = "Change Password";
     }
 
     setLoading(bLoading) {
@@ -21,19 +26,69 @@ class Password extends React.Component {
         store.dispatch(action);
     }
 
-    componentDidMount() {
-        window.document.title = "Change Password - TeraDrive";
+    onFinish(values) {
+        if (values.password != values.confirm) {
+            message.error("Password doesn not match");
+            return;
+        }
 
-        let action = {
-            type: "setMenuItem",
-            value: ["/main/password"],
-        };
-        store.dispatch(action);
+        this.setLoading(true);
+
+        let self = this;
+        axios
+            .post("/api/user/password/", values)
+            .then(function (res) {
+                if (0 === res.data.code) {
+                    message.success("Password updated");
+                } else {
+                    message.error(res.data.message);
+                }
+                self.setLoading(false);
+            })
+            .catch(function (err) {
+                message.error(err.message);
+                self.setLoading(false);
+            });
     }
 
     render() {
         return (
-            <span>Password!</span>
+            <Row justify="center" align="middle" className="container">
+                <Form name="basic" onFinish={this.onFinish}>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your password",
+                            },
+                        ]}
+                    >
+                        <Input.Password placeholder="Password" size="large" />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="confirm"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your password",
+                            },
+                        ]}
+                    >
+                        <Input.Password
+                            placeholder="Retype Password"
+                            size="large"
+                        />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>
+                            Submit
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Row>
         );
     }
 }
