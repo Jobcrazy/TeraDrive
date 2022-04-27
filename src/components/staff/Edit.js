@@ -4,8 +4,14 @@ import { DoubleLeftOutlined } from "@ant-design/icons";
 import utils from "../../common/Utils";
 import axios from "axios";
 import store from "../../store";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 class UserEdit extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -33,8 +39,14 @@ class UserEdit extends React.Component {
         this.setLoading(true);
 
         let self = this;
-        axios
-            .post("/api/user/detail", { id: id })
+        const { cookies } = self.props;
+
+        axios({
+            method: "POST",
+            url: utils.getDomain() + "/api/user/detail",
+            headers: { token: cookies.get("token") },
+            data: { id },
+        })
             .then(function (res) {
                 self.setLoading(false);
                 if (1 === res.data.code) {
@@ -83,8 +95,14 @@ class UserEdit extends React.Component {
         values.isAdmin = this.state.isAdmin;
 
         let self = this;
-        axios
-            .post(utils.getDomain() + url, values)
+        const { cookies } = self.props;
+
+        axios({
+            method: "POST",
+            url: utils.getDomain() + url,
+            headers: { token: cookies.get("token") },
+            data: values,
+        })
             .then(function (res) {
                 self.setLoading(false);
                 if (1 === res.data.code) {
@@ -187,4 +205,4 @@ class UserEdit extends React.Component {
     }
 }
 
-export default UserEdit;
+export default withCookies(UserEdit);

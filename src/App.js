@@ -5,6 +5,7 @@ import {
     Redirect,
     Switch,
 } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 import { ConfigProvider, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./App.css";
@@ -37,38 +38,47 @@ class App extends React.Component {
 
     render() {
         return (
-            <Suspense
-                fallback={
+            <CookiesProvider>
+                <Suspense
+                    fallback={
+                        <Spin
+                            size="large"
+                            tip="Loading..."
+                            indicator={
+                                <LoadingOutlined
+                                    style={{ fontSize: 24 }}
+                                    spin
+                                />
+                            }
+                        >
+                            <div className="App" />
+                        </Spin>
+                    }
+                >
                     <Spin
                         size="large"
+                        spinning={this.state.bLoading}
                         tip="Loading..."
                         indicator={
                             <LoadingOutlined style={{ fontSize: 24 }} spin />
                         }
                     >
-                        <div className="App" />
+                        <div className="App">
+                            <Router>
+                                <Switch>
+                                    <Redirect path="/" to="/login" exact />
+                                    <Route
+                                        path="/login"
+                                        component={Login}
+                                        exact
+                                    />
+                                    <Route path="/main" component={Main} />
+                                </Switch>
+                            </Router>
+                        </div>
                     </Spin>
-                }
-            >
-                <Spin
-                    size="large"
-                    spinning={this.state.bLoading}
-                    tip="Loading..."
-                    indicator={
-                        <LoadingOutlined style={{ fontSize: 24 }} spin />
-                    }
-                >
-                    <div className="App">
-                        <Router>
-                            <Switch>
-                                <Redirect path="/" to="/login" exact />
-                                <Route path="/login" component={Login} exact />
-                                <Route path="/main" component={Main} />
-                            </Switch>
-                        </Router>
-                    </div>
-                </Spin>
-            </Suspense>
+                </Suspense>
+            </CookiesProvider>
         );
     }
 }

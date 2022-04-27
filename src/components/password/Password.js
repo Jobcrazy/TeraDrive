@@ -5,8 +5,14 @@ import utils from "../../common/Utils";
 import "../../store";
 import store from "../../store";
 import "./Password.css";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 class Password extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -41,10 +47,20 @@ class Password extends React.Component {
         this.setLoading(true);
 
         let self = this;
-        axios
-            .post(utils.getDomain() + "api/user/password/", values)
+        const { cookies } = self.props;
+
+        axios({
+            method: "POST",
+            url: utils.getDomain() + "api/user/password/",
+            headers: { token: cookies.get("token") },
+            data: values,
+        })
             .then(function (res) {
-                if (0 === res.data.code) {
+                if (1 === res.data.code) {
+                    self.props.history.replace("/");
+                }
+                else if (0 === res.data.code) {
+                    cookies.set("token", res.data.data.token, { path: "/" });
                     message.success("Password updated");
                 } else {
                     message.error(res.data.message);
@@ -99,4 +115,4 @@ class Password extends React.Component {
     }
 }
 
-export default Password;
+export default withCookies(Password);

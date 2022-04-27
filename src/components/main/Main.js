@@ -21,6 +21,7 @@ const StaffPage = React.lazy(() => import("../staff/Staff"));
 const StaffEdit = React.lazy(() => import("../staff/Edit"));
 const CustomerPage = React.lazy(() => import("../customer/Customer"));
 const PasswordPage = React.lazy(() => import("../password/Password"));
+const LogoutPage = React.lazy(() => import("../logout/Logout"));
 
 const { Sider } = Layout;
 
@@ -159,9 +160,8 @@ class Main extends React.Component {
                                 Password
                             </Menu.Item>
                             <Menu.Item
-                                key="logout"
+                                key="/main/logout"
                                 icon={<LogoutOutlined />}
-                                onClick={this.onClickLogout}
                             >
                                 Logout
                             </Menu.Item>
@@ -193,6 +193,11 @@ class Main extends React.Component {
                             <Route
                                 path="/main/customers"
                                 component={CustomerPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/logout"
+                                component={LogoutPage}
                                 exact
                             />
                             <Route

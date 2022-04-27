@@ -5,8 +5,14 @@ import axios from "axios";
 import utils from "../../common/Utils";
 import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
 import store from "../../store";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 class Staff extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -103,10 +109,14 @@ class Staff extends React.Component {
         this.setLoading(true);
 
         let self = this;
-        axios
-            .post(utils.getDomain() + "api/user/delete", {
-                id,
-            })
+        const { cookies } = self.props;
+
+        axios({
+            method: "POST",
+            url: utils.getDomain() + "api/user/delete",
+            headers: { token: cookies.get("token") },
+            data: { id },
+        })
             .then(function (res) {
                 self.setLoading(false);
                 if (1 === res.data.code) {
@@ -127,11 +137,14 @@ class Staff extends React.Component {
         this.setLoading(true);
 
         let self = this;
-        axios
-            .post(utils.getDomain() + "api/user/list", {
-                page: page,
-                limit: pageSize,
-            })
+        const { cookies } = self.props;
+
+        axios({
+            method: "POST",
+            url: utils.getDomain() + "api/user/list",
+            headers: { token: cookies.get("token") },
+            data: { page: page, limit: pageSize },
+        })
             .then(function (res) {
                 self.setLoading(false);
                 if (1 === res.data.code) {
@@ -207,4 +220,4 @@ class Staff extends React.Component {
     }
 }
 
-export default Staff;
+export default withCookies(Staff);

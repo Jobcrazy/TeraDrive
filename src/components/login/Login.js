@@ -5,12 +5,19 @@ import utils from "../../common/Utils";
 import "./Login.css";
 import "../../store";
 import store from "../../store";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 class Login extends React.Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
         this.onFinish = this.onFinish.bind(this);
+        this.checkLogin = this.checkLogin.bind(this);
     }
 
     componentDidMount() {
@@ -36,6 +43,9 @@ class Login extends React.Component {
             .post(utils.getDomain() + "api/user/login", values)
             .then(function (res) {
                 if (0 === res.data.code) {
+                    const { cookies } = self.props;
+                    cookies.set("token", res.data.data.token, { path: "/" });
+
                     self.props.history.push("/main");
                 } else {
                     message.error(res.data.message);
@@ -50,8 +60,17 @@ class Login extends React.Component {
 
     checkLogin() {
         let self = this;
-        axios
-            .get(utils.getDomain() + "api/user/info", {})
+        const { cookies } = self.props;
+
+        if(!cookies.get("token")){
+            return;
+        }
+
+        axios({
+            method: "GET",
+            url: utils.getDomain() + "api/user/info",
+            headers: { token: cookies.get("token") },
+        })
             .then(function (res) {
                 if (0 === res.data.code) {
                     self.props.history.push("/main");
@@ -106,4 +125,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default withCookies(Login);
