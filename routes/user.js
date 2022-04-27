@@ -79,4 +79,19 @@ router.get('/logout', auth, async function (req, res, next) {
     utils.SendResult(res);
 });
 
+router.post('/password', async function (req, res, next) {
+    try {
+        await User.update({ password: req.body.password }, {
+            where: {
+                id: req.session.uid,
+            }
+        });
+
+        utils.SendResult(res);
+    } catch (error) {
+        console.log(error);
+        utils.SendError(res, error);
+    }
+});
+
 module.exports = router;

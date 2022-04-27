@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const auth = require("../common/auth");
 const errorCode = require("../common/errorCode");
@@ -8,19 +8,21 @@ const Client = require("../model/client");
 /**
  * Get all client infomations
  */
-router.get('/', auth, async function (req, res, next) {
+router.get("/", auth, async function (req, res, next) {
     try {
-
-        let pageOffset = (req.body.page-1) * req.body.size;
+        let pageOffset = (req.body.page - 1) * req.body.size;
         let pageSize = req.body.size;
         let result;
 
-        if(pageCount && pageSize){
-            result = await Client.findAll({ offset: pageOffset, limit: pageSize });
-        }else{
+        if (pageCount && pageSize) {
+            result = await Client.findAll({
+                offset: pageOffset,
+                limit: pageSize,
+            });
+        } else {
             result = await Client.findAll({});
         }
-        
+
         utils.SendResult(res, result);
     } catch (error) {
         console.log(error);
@@ -31,13 +33,13 @@ router.get('/', auth, async function (req, res, next) {
 /**
  * Get specific client infomations
  */
-router.get('/:id', auth, async function (req, res, next) {
+router.get("/:id", auth, async function (req, res, next) {
     try {
         let result = await Client.findAll({
             where: {
                 id: req.params.id,
             },
-            limit: 1
+            limit: 1,
         });
 
         utils.SendResult(res, result);
@@ -50,20 +52,18 @@ router.get('/:id', auth, async function (req, res, next) {
 /**
  * Create client
  */
-router.post('/', auth, async function (req, res, next) {
+router.post("/", auth, async function (req, res, next) {
     try {
-        await Client.create(
-            {
-                company: req.body.company,
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                date: req.body.date,
-                phone: req.body.phone,
-                address: req.body.address,
-                email: req.body.email,
-                postal: req.body.postal,
-            }
-        );
+        await Client.create({
+            company: req.body.company,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            date: req.body.date,
+            phone: req.body.phone,
+            address: req.body.address,
+            email: req.body.email,
+            postal: req.body.postal,
+        });
 
         utils.SendResult(res);
     } catch (error) {
@@ -75,22 +75,25 @@ router.post('/', auth, async function (req, res, next) {
 /**
  * Update client
  */
-router.put('/:id', auth, async function (req, res, next) {
+router.put("/:id", auth, async function (req, res, next) {
     try {
-        await Client.update({
-            company: req.body.company,
-            firstname: req.body.password,
-            lastname: req.body.email,
-            date: req.body.company,
-            phone: req.body.password,
-            address: req.body.email,
-            email: req.body.company,
-            postal: req.body.password,
-        }, {
-            where: {
-                id: req.params.id,
+        await Client.update(
+            {
+                company: req.body.company,
+                firstname: req.body.password,
+                lastname: req.body.email,
+                date: req.body.company,
+                phone: req.body.password,
+                address: req.body.email,
+                email: req.body.company,
+                postal: req.body.password,
+            },
+            {
+                where: {
+                    id: req.params.id,
+                },
             }
-        });
+        );
         utils.SendResult(res);
     } catch (error) {
         console.log(error);
@@ -98,16 +101,15 @@ router.put('/:id', auth, async function (req, res, next) {
     }
 });
 
-
 /**
  * Delete client
  */
-router.delete('/:id', auth, async function (req, res, next) {
+router.delete("/:id", auth, async function (req, res, next) {
     try {
         await Client.destroy({
             where: {
                 id: req.params.id,
-            }
+            },
         });
 
         utils.SendResult(res);
