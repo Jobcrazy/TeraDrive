@@ -16,7 +16,6 @@ function createAdmin(){
                     id: 1,
                     username: "admin",
                     password: "admin",
-                    email: "admin@none.net",
                     isAdmin: true,
                 }
             )
