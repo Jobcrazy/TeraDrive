@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Form, Col, Input, Button, message } from "antd";
 import axios from "axios";
-import Utils from "../../common/Utils";
+import utils from "../../common/Utils";
 import "../../store";
 import store from "../../store";
 import "./Password.css";
@@ -42,7 +42,7 @@ class Password extends React.Component {
 
         let self = this;
         axios
-            .post("/api/user/password/", values)
+            .post(utils.getDomain() + "api/user/password/", values)
             .then(function (res) {
                 if (0 === res.data.code) {
                     message.success("Password updated");
