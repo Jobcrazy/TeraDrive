@@ -1,5 +1,6 @@
 // Models, you must add all models here
 const User = require("../model/user");
+const Client = require("../model/client")
 const sequelize = require("./sequelize");
 
 // Create default admin
