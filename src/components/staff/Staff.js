@@ -193,7 +193,7 @@ class Staff extends React.Component {
                 pagination={{
                     position: ["bottomLeft"],
                     total: this.state.count,
-                    showTotal: (total, range) => `共 ${total} 条`,
+                    showTotal: (total, range) => `Total: ${total} `,
                     pageSize: this.state.limit,
                     showQuickJumper: true,
                     onChange: this.onPageChange,
