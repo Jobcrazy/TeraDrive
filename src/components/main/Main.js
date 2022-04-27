@@ -10,6 +10,7 @@ import {
     UsergroupAddOutlined,
     SettingOutlined,
     LogoutOutlined,
+    FileWordOutlined,
 } from "@ant-design/icons";
 import store from "../../store";
 import "./Main.css";
@@ -140,6 +141,17 @@ class Main extends React.Component {
                             >
                                 Staff
                             </Menu.Item>
+                            <Menu.SubMenu
+                                title="Templates"
+                                icon={<FileWordOutlined />}
+                            >
+                                <Menu.Item key="/main/templates/email">
+                                    Email
+                                </Menu.Item>
+                                <Menu.Item key="/main/templates/sms">
+                                    SMS
+                                </Menu.Item>
+                            </Menu.SubMenu>
                             <Menu.Item
                                 key="/main/password"
                                 icon={<SettingOutlined />}
