@@ -6,16 +6,13 @@ const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
 const User = require("../model/user");
 
-router.post('/create', async function (req, res, next) {
+router.post('/create', auth, checkAdmin, async function (req, res, next) {
     try {
-        // Only admin user can create another admin user
-        let isAdmin = req.session.isAdmin ? req.body.admin : false;
-
         await User.create(
             {
                 username: req.body.username,
                 password: req.body.password,
-                isAdmin: isAdmin,
+                isAdmin: req.session.isAdmin,
             }
         );
         utils.SendResult(res);
