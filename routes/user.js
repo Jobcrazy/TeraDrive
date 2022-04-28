@@ -23,31 +23,19 @@ router.post("/create", auth, checkAdmin, async function (req, res, next) {
 
 router.post("/login", async function (req, res, next) {
     try {
-        let result = await User.findAll({
+        let user = await User.findOne({
             where: {
                 username: req.body.username,
                 password: req.body.password,
             },
         });
 
-        if (!result.length) {
+        if (!user) {
             utils.SendError(res, errorCode.error_credential);
             return;
         }
 
-        // Update Token
-        result[0].token = utils.CalcStringMD5(req.body.username + req.body.password);
-        await User.update(
-            {token: result[0].token},
-            {
-                where: {
-                    username: req.body.username,
-                    password: req.body.password,
-                },
-            }
-        );
-
-        utils.SendResult(res, result[0]);
+        utils.SendResult(res, user);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);
@@ -56,18 +44,18 @@ router.post("/login", async function (req, res, next) {
 
 router.get("/info", auth, async function (req, res, next) {
     try {
-        let result = await User.findAll({
+        let user = await User.findOne({
             where: {
                 token: req.headers.token,
             },
         });
 
-        if (!result.length) {
+        if (!user) {
             utils.SendError(res, errorCode.error_credential);
             return;
         }
 
-        utils.SendResult(res, result[0]);
+        utils.SendResult(res, user);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);
@@ -76,17 +64,17 @@ router.get("/info", auth, async function (req, res, next) {
 
 router.post("/password", auth, async function (req, res, next) {
     try {
-        let user = await User.findAll({
+        let user = await User.findOne({
             where: {
                 token: req.headers.token,
             },
         });
 
-        user[0].token = utils.CalcStringMD5(user[0].username + req.body.password);
+        user.token = utils.CalcStringMD5(user.username + req.body.password);
         await User.update(
             {
                 password: req.body.password,
-                token: user[0].token
+                token: user.token
             },
             {
                 where: {
@@ -95,7 +83,7 @@ router.post("/password", auth, async function (req, res, next) {
             }
         );
 
-        utils.SendResult(res, user[0]);
+        utils.SendResult(res, user);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);
@@ -109,11 +97,11 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await User.count();
-        let result = await User.findAll({offset, limit});
+        let users = await User.findAll({offset, limit});
 
         let data = {
             count,
-            data: result,
+            data: users,
         };
 
         utils.SendResult(res, data);
@@ -125,18 +113,18 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
 
 router.post("/detail", auth, checkAdmin, async function (req, res, next) {
     try {
-        let result = await User.findAll({
+        let user = await User.findOne({
             where: {
                 id: req.body.id,
             },
         });
 
-        if (!result.length) {
+        if (!user) {
             utils.SendError(res, errorCode.error_no_user);
             return;
         }
 
-        utils.SendResult(res, result[0]);
+        utils.SendResult(res, user);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);

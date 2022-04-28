@@ -9,10 +9,6 @@ const Client = sequelize.define(
             autoIncrement: true,
             primaryKey: true,
         },
-        company: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
         firstname: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -21,15 +17,11 @@ const Client = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        date: {
-            type: DataTypes.DATE,
-            allowNull: false,
+        company: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
         phone: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        address: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -41,6 +33,10 @@ const Client = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        address: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     },
     {
         timestamps: false,
