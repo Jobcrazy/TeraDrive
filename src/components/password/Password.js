@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Form, Col, Input, Button, message } from "antd";
+import { Row, Form, Input, Button, message } from "antd";
 import axios from "axios";
 import utils from "../../common/Utils";
 import "../../store";
@@ -39,7 +39,7 @@ class Password extends React.Component {
     }
 
     onFinish(values) {
-        if (values.password != values.confirm) {
+        if (values.password !== values.confirm) {
             message.error("Password doesn not match");
             return;
         }

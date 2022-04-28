@@ -59,7 +59,7 @@ class Staff extends React.Component {
 
                             <Popconfirm
                                 placement="right"
-                                title="Are you sure to delete this user?"
+                                title="Are you sure to delete this staff?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
                                 <Button danger size="small">
@@ -191,7 +191,7 @@ class Staff extends React.Component {
                         icon={<UserAddOutlined />}
                         onClick={this.onAddSupplier}
                     >
-                        New User
+                        New Staff
                     </Button>
                 </Col>
             </Row>

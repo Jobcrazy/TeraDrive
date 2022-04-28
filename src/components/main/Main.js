@@ -20,6 +20,7 @@ const CasePage = React.lazy(() => import("../case/Case"));
 const StaffPage = React.lazy(() => import("../staff/Staff"));
 const StaffEdit = React.lazy(() => import("../staff/Edit"));
 const CustomerPage = React.lazy(() => import("../customer/Customer"));
+const CustomerEdit = React.lazy(() => import("../customer/Edit"));
 const PasswordPage = React.lazy(() => import("../password/Password"));
 const LogoutPage = React.lazy(() => import("../logout/Logout"));
 
@@ -68,7 +69,10 @@ class Main extends React.Component {
         axios
             .get(utils.getDomain() + "api/user/logout")
             .then(function (res) {
-                if (0 === res.data.code || 1 == res.data.code) {
+                if (
+                    0 === parseInt(res.data.code) ||
+                    1 === parseInt(res.data.code)
+                ) {
                     self.props.history.push("/");
                 } else {
                     message.error(res.data.message);
@@ -193,6 +197,11 @@ class Main extends React.Component {
                             <Route
                                 path="/main/customers"
                                 component={CustomerPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/customer/edit/:id"
+                                component={CustomerEdit}
                                 exact
                             />
                             <Route

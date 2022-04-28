@@ -6,7 +6,7 @@ import {
     Switch,
 } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import { ConfigProvider, Spin } from "antd";
+import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./App.css";
 import store from "./store";

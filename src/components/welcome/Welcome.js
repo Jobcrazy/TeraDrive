@@ -1,8 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Space, Row, Col, Popconfirm, Table, message, Button } from "antd";
-import axios from "axios";
-import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
 import store from "../../store";
 
 class Welcome extends React.Component {

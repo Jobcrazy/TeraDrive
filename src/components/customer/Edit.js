@@ -20,10 +20,6 @@ class UserEdit extends React.Component {
 
         this.onFinish = this.onFinish.bind(this);
         this.onGoback = this.onGoback.bind(this);
-
-        this.state = {
-            isAdmin: false,
-        };
     }
 
     setLoading(bLoading) {
@@ -43,7 +39,7 @@ class UserEdit extends React.Component {
 
         axios({
             method: "POST",
-            url: utils.getDomain() + "/api/user/detail",
+            url: utils.getDomain() + "/api/client/detail",
             headers: { token: cookies.get("token") },
             data: { id },
         })
@@ -52,12 +48,15 @@ class UserEdit extends React.Component {
                 if (1 === res.data.code) {
                     self.props.history.push("/login");
                 } else if (0 === res.data.code) {
+                    console.log(res.data.data);
                     self.formRef.current.setFieldsValue({
-                        username: res.data.data.username,
-                        password: res.data.data.password,
-                    });
-                    self.setState({
-                        isAdmin: res.data.data.isAdmin,
+                        firstname: res.data.data.firstname,
+                        lastname: res.data.data.lastname,
+                        phone: res.data.data.phone,
+                        email: res.data.data.email,
+                        company: res.data.data.company,
+                        address: res.data.data.address,
+                        postal: res.data.data.postal,
                     });
                 } else {
                     message.error(res.data.message);
@@ -70,7 +69,7 @@ class UserEdit extends React.Component {
     }
 
     componentDidMount() {
-        window.document.title = "Staff - TeraDrive";
+        window.document.title = "Customers - TeraDrive";
 
         this.id = this.props.match.params.id;
         if ("0" !== this.id) {
@@ -79,20 +78,19 @@ class UserEdit extends React.Component {
 
         store.dispatch({
             type: "setMenuItem",
-            value: ["/main/staff"],
+            value: ["/main/customers"],
         });
     }
 
     onFinish(values) {
         this.setLoading(true);
 
-        let url = "api/user/create";
+        let url = "api/client/create";
         if ("0" !== this.id) {
-            url = "api/user/update";
+            url = "api/client/update";
         }
 
         values.id = this.id;
-        values.isAdmin = this.state.isAdmin;
 
         let self = this;
         const { cookies } = self.props;
@@ -108,7 +106,7 @@ class UserEdit extends React.Component {
                 if (1 === res.data.code) {
                     self.props.history.push("/login");
                 } else if (0 === res.data.code) {
-                    self.props.history.push("/main/staff");
+                    self.props.history.push("/main/customers");
                 } else {
                     message.error(res.data.message);
                 }
@@ -151,43 +149,93 @@ class UserEdit extends React.Component {
                 >
                     <Form.Item
                         colon={false}
-                        label="Username"
-                        name="username"
+                        label="First Name"
+                        name="firstname"
                         rules={[
                             {
                                 required: true,
-                                message: "The length is at least 5",
-                                min: 5,
                             },
                         ]}
                     >
-                        <Input placeholder="Username" />
+                        <Input placeholder="First Name" />
                     </Form.Item>
 
                     <Form.Item
                         colon={false}
-                        label="Password"
-                        name="password"
+                        label="Last Name"
+                        name="lastname"
                         rules={[
                             {
                                 required: true,
-                                message: "The length is at least 5",
-                                min: 5,
                             },
                         ]}
                     >
-                        <Input placeholder="Password" type="password" />
+                        <Input placeholder="Last Name" />
                     </Form.Item>
 
-                    <Form.Item colon={false} label="Is Admin">
-                        <Checkbox
-                            checked={this.state.isAdmin}
-                            onChange={() => {
-                                this.setState({
-                                    isAdmin: !this.state.isAdmin,
-                                });
-                            }}
-                        />
+                    <Form.Item
+                        colon={false}
+                        label="Phone"
+                        name="phone"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Phone" />
+                    </Form.Item>
+
+                    <Form.Item
+                        colon={false}
+                        label="Email"
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Email" />
+                    </Form.Item>
+
+                    <Form.Item
+                        colon={false}
+                        label="Company"
+                        name="company"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Company" />
+                    </Form.Item>
+
+                    <Form.Item
+                        colon={false}
+                        label="Address"
+                        name="address"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="address" />
+                    </Form.Item>
+
+                    <Form.Item
+                        colon={false}
+                        label="Postal"
+                        name="postal"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Postal" />
                     </Form.Item>
 
                     <Form.Item
