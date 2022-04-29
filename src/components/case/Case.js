@@ -289,7 +289,7 @@ class Case extends React.Component {
                                 {record.paid}
                             </Descriptions.Item>
                             <Descriptions.Item label="Ok to Open">
-                                {record.open}
+                                {constant.yes_or_no[record.open - 1].text}
                             </Descriptions.Item>
                             <Descriptions.Item label="Format to">
                                 {record.format}
@@ -298,7 +298,7 @@ class Case extends React.Component {
                                 {record.referer}
                             </Descriptions.Item>
                             <Descriptions.Item label="Target Drive">
-                                {constant.yes_or_no[record.open - 1].text}
+                                {record.target}
                             </Descriptions.Item>
                             <Descriptions.Item label="Received On">
                                 {record.received}
