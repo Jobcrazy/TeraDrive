@@ -32,6 +32,7 @@ class Case extends React.Component {
         this.onAddSupplier = this.onAddSupplier.bind(this);
         this.reloadPage = this.reloadPage.bind(this);
         this.handleDel = this.handleDel.bind(this);
+        this.sendEmail = this.sendEmail.bind(this);
 
         let self = this;
 
@@ -69,7 +70,17 @@ class Case extends React.Component {
                     title: "Email",
                     key: "email",
                     render: function (text, record, index) {
-                        return record.client.email;
+                        return (
+                            <Button
+                                type="link"
+                                size="small"
+                                onClick={() =>
+                                    self.sendEmail(record.client.email)
+                                }
+                            >
+                                {record.client.email}
+                            </Button>
+                        );
                     },
                 },
                 {
@@ -126,6 +137,12 @@ class Case extends React.Component {
                 },
             ],
         };
+    }
+
+    sendEmail(address) {
+        //window.location.href =
+        //    "mailto:mail@example.org?subject=test&body=ddd";
+        window.location.href = "mailto:" + address;
     }
 
     setLoading(bLoading) {
