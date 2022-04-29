@@ -4,6 +4,7 @@ const auth = require("../common/auth");
 const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
 const Case = require("../model/case");
+const Client = require("../model/client");
 
 /**
  * Get all cases
@@ -15,7 +16,7 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await Case.count();
-        let cases = await Case.findAll({offset, limit});
+        let cases = await Case.findAll({offset, limit, include: Client});
 
         let data = {
             count,
@@ -39,6 +40,7 @@ router.post("/detail", auth, async function (req, res, next) {
                 id: req.body.id,
             },
             limit: 1,
+            include: Client
         });
 
         if (!result) {

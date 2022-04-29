@@ -6,6 +6,7 @@ const syncModels = require("./common/syncModels");
 const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const clientRouter = require("./routes/client");
+const caseRouter = require("./routes/case");
 const app = express();
 
 app.set("trust proxy", 1);
@@ -33,5 +34,6 @@ syncModels();
 app.use("/", indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/client", clientRouter);
+app.use("/api/case", caseRouter);
 
 module.exports = app;
