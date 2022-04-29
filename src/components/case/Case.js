@@ -289,7 +289,7 @@ class Case extends React.Component {
                                 {record.paid}
                             </Descriptions.Item>
                             <Descriptions.Item label="Ok to Open">
-                                {constant.yes_or_no[record.open - 1].text}
+                                {record.open ? "Yes" : "No"}
                             </Descriptions.Item>
                             <Descriptions.Item label="Format to">
                                 {record.format}

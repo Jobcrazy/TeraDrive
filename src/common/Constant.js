@@ -30,7 +30,7 @@ export default {
         { id: 17, text: "Client Away" },
     ],
     yes_or_no: [
-        { id: 1, value: true, text: "Yes" },
-        { id: 2, value: false, text: "No" },
+        { id: 0, value: false, text: "NO" },
+        { id: 1, value: true, text: "YES" },
     ],
 };

@@ -41,6 +41,13 @@ class Staff extends React.Component {
                     key: "username",
                 },
                 {
+                    title: "Is Admin",
+                    key: "isAdmin",
+                    render: (text, record) => {
+                        return record.isAdmin ? "Yes" : "No";
+                    },
+                },
+                {
                     title: "Action",
                     key: "operation",
                     fixed: "right",
