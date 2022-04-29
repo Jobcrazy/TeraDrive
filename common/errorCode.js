@@ -27,4 +27,8 @@ module.exports = {
         code: 6,
         message: "You are not an administrator",
     },
+    error_no_case: {
+        code: 7,
+        message: "The case doesn't exist",
+    },
 };
