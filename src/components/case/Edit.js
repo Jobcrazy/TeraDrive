@@ -1,5 +1,6 @@
 import React from "react";
 import {
+    Table,
     Row,
     Col,
     Input,
@@ -8,10 +9,17 @@ import {
     Button,
     Select,
     InputNumber,
+    Upload,
+    Space,
+    Popconfirm,
     DatePicker,
 } from "antd";
 import moment from "moment";
-import { DoubleLeftOutlined } from "@ant-design/icons";
+import {
+    DoubleLeftOutlined,
+    FolderViewOutlined,
+    UploadOutlined,
+} from "@ant-design/icons";
 import utils from "../../common/Utils";
 import constant from "../../common/Constant";
 import axios from "axios";
@@ -35,9 +43,50 @@ class UserEdit extends React.Component {
         this.onFinish = this.onFinish.bind(this);
         this.onGoback = this.onGoback.bind(this);
         this.loadCustumers = this.loadCustumers.bind(this);
+        this.attachmentTable = this.attachmentTable.bind(this);
+        this.delAttachment = this.delAttachment.bind(this);
+        this.onUpload = this.onUpload.bind(this);
+
+        this.attachmentColumn = [
+            {
+                title: "File Name",
+                dataIndex: "name",
+                key: "name",
+            },
+            {
+                title: "Action",
+                key: "operation",
+                fixed: "right",
+                width: 150,
+                render: (text, record) => (
+                    <Space>
+                        <a href={record.path} target="_blank" rel="noreferrer">
+                            <Button
+                                type="primary"
+                                icon={<FolderViewOutlined />}
+                                size="small"
+                            >
+                                View
+                            </Button>
+                        </a>
+                        <Popconfirm
+                            placement="left"
+                            title="Are you sure to delete this file?"
+                            onConfirm={() => this.delAttachment(record.id)}
+                        >
+                            <Button danger size="small">
+                                Delete
+                            </Button>
+                        </Popconfirm>
+                    </Space>
+                ),
+            },
+        ];
 
         this.state = {
             customers: [],
+            statements: [],
+            attachments: [],
         };
     }
 
@@ -127,6 +176,9 @@ class UserEdit extends React.Component {
                             .endOf("day")
                             .add(1, "days"),
                     });
+                    self.setState({
+                        attachments: JSON.parse(res.data.data.files)
+                    });
                 } else {
                     message.error(res.data.message);
                 }
@@ -162,6 +214,7 @@ class UserEdit extends React.Component {
         }
 
         values.id = this.id;
+        values.files = JSON.stringify(this.state.attachments);
 
         let self = this;
         const { cookies } = self.props;
@@ -188,11 +241,62 @@ class UserEdit extends React.Component {
             });
     }
 
+    onUpload(event) {
+        this.setLoading(true);
+        if (event.file.status === "done") {
+            this.setLoading(false);
+            let attachments = [...this.state.attachments];
+            attachments.push(event.file.response.data);
+            this.setState({
+                attachments,
+            });
+        } else if (event.file.status === "error") {
+            this.setLoading(false);
+            message.error(event.file.name + ": Error while uploading");
+        }
+    }
+
+    delAttachment(id) {
+        let attachments = [...this.state.attachments];
+        for (let index in attachments) {
+            if (attachments[index].id === id) {
+                attachments.splice(index, 1);
+                break;
+            }
+        }
+        this.setState({
+            attachments: attachments,
+        });
+    }
+
     onGoback() {
         this.props.history.go(-1);
     }
 
+    attachmentTable() {
+        if (this.state.attachments && this.state.attachments.length) {
+            return (
+                <Form.Item colon={false} label="附件">
+                    <Table
+                        dataSource={this.state.attachments}
+                        columns={this.attachmentColumn}
+                        pagination={{
+                            position: ["bottomLeft"],
+                            pageSize: 100,
+                            showQuickJumper: true,
+                            pageSizeOptions: [20, 100, 500],
+                            hideOnSinglePage: true,
+                        }}
+                        rowKey={(record) => record.id}
+                    />
+                </Form.Item>
+            );
+        }
+        return null;
+    }
+
     render() {
+        const { cookies } = this.props;
         return (
             <Col span="24" style={{ backgroundColor: "#fff" }}>
                 <Row style={{ marginBottom: "15px" }}>
@@ -521,6 +625,28 @@ class UserEdit extends React.Component {
                             format={"YYYY/MM/DD"}
                             placeholder="Approved on"
                         />
+                    </Form.Item>
+
+                    <this.attachmentTable />
+
+                    <Form.Item
+                        wrapperCol={{
+                            offset: 3,
+                        }}
+                    >
+                        <Upload
+                            name="file"
+                            action="/api/file/upload"
+                            onChange={this.onUpload}
+                            showUploadList={false}
+                            headers={{
+                                token: cookies.get("token"),
+                            }}
+                        >
+                            <Button type="primary" icon={<UploadOutlined />}>
+                                Upload File
+                            </Button>
+                        </Upload>
                     </Form.Item>
 
                     <Form.Item
