@@ -3,7 +3,7 @@ module.exports = {
         code: 0,
         message: "Success",
     },
-    error_login:{
+    error_login: {
         code: 1,
         message: "You have not logged in",
     },
@@ -30,5 +30,13 @@ module.exports = {
     error_no_case: {
         code: 7,
         message: "The case doesn't exist",
+    },
+    error_form: {
+        code: 8,
+        message: "Invalid form",
+    },
+    error_io: {
+        code: 9,
+        message: "IO error",
     },
 };

@@ -7,13 +7,15 @@ const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const clientRouter = require("./routes/client");
 const caseRouter = require("./routes/case");
+const fileRouter = require("./routes/file");
 const app = express();
 
 app.set("trust proxy", 1);
 app.use(logger("dev"));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
 
 // Allow crossed domain requests
 app.all("*", function (req, res, next) {
@@ -35,5 +37,6 @@ app.use("/", indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/client", clientRouter);
 app.use("/api/case", caseRouter);
+app.use("/api/file", fileRouter);
 
 module.exports = app;

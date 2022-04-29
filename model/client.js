@@ -36,7 +36,7 @@ const Client = sequelize.define(
         address: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+        },
     },
     {
         timestamps: false,

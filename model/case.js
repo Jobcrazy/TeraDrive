@@ -1,4 +1,4 @@
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../common/sequelize");
 
 const Case = sequelize.define(
@@ -82,6 +82,11 @@ const Case = sequelize.define(
             type: DataTypes.DATEONLY,
             allowNull: false,
             defaultValue: DataTypes.NOW,
+        },
+        files: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            defaultValue: "[]",
         },
     },
     {

@@ -71,7 +71,7 @@ router.post("/password", auth, async function (req, res, next) {
         await User.update(
             {
                 password: req.body.password,
-                token: user.token
+                token: user.token,
             },
             {
                 where: {
@@ -94,7 +94,7 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await User.count();
-        let users = await User.findAll({offset, limit});
+        let users = await User.findAll({ offset, limit });
 
         let data = {
             count,
@@ -135,7 +135,9 @@ router.post("/update", auth, checkAdmin, async function (req, res, next) {
                 username: req.body.username,
                 password: req.body.password,
                 isAdmin: parseInt(req.body.id) === 1 ? 1 : req.body.isAdmin, //id为1的必须是admin
-                token: utils.CalcStringMD5(req.body.username + req.body.password),
+                token: utils.CalcStringMD5(
+                    req.body.username + req.body.password
+                ),
             },
             {
                 where: {

@@ -16,7 +16,7 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await Case.count();
-        let cases = await Case.findAll({offset, limit, include: Client});
+        let cases = await Case.findAll({ offset, limit, include: Client });
 
         let data = {
             count,
@@ -40,7 +40,7 @@ router.post("/detail", auth, async function (req, res, next) {
                 id: req.body.id,
             },
             limit: 1,
-            include: Client
+            include: Client,
         });
 
         if (!result) {
@@ -74,14 +74,11 @@ router.post("/create", auth, async function (req, res, next) {
  */
 router.post("/update", auth, async function (req, res, next) {
     try {
-        await Case.update(
-            req.body,
-            {
-                where: {
-                    id: req.body.id,
-                },
-            }
-        );
+        await Case.update(req.body, {
+            where: {
+                id: req.body.id,
+            },
+        });
         utils.SendResult(res);
     } catch (error) {
         console.log(error);

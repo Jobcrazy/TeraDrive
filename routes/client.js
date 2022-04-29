@@ -15,7 +15,7 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await Client.count();
-        let customers = await Client.findAll({offset, limit});
+        let customers = await Client.findAll({ offset, limit });
 
         let data = {
             count,
@@ -85,14 +85,11 @@ router.post("/create", auth, async function (req, res, next) {
  */
 router.post("/update", auth, async function (req, res, next) {
     try {
-        await Client.update(
-            req.body,
-            {
-                where: {
-                    id: req.body.id,
-                },
-            }
-        );
+        await Client.update(req.body, {
+            where: {
+                id: req.body.id,
+            },
+        });
         utils.SendResult(res);
     } catch (error) {
         console.log(error);
