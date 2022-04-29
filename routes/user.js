@@ -24,10 +24,7 @@ router.post("/create", auth, checkAdmin, async function (req, res, next) {
 router.post("/login", async function (req, res, next) {
     try {
         let user = await User.findOne({
-            where: {
-                username: req.body.username,
-                password: req.body.password,
-            },
+            where: req.body,
         });
 
         if (!user) {

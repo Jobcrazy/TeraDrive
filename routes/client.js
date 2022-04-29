@@ -71,16 +71,7 @@ router.post("/detail", auth, async function (req, res, next) {
  */
 router.post("/create", auth, async function (req, res, next) {
     try {
-        await Client.create({
-            company: req.body.company,
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            date: req.body.date,
-            phone: req.body.phone,
-            address: req.body.address,
-            email: req.body.email,
-            postal: req.body.postal,
-        });
+        await Client.create(req.body);
 
         utils.SendResult(res);
     } catch (error) {
@@ -95,16 +86,7 @@ router.post("/create", auth, async function (req, res, next) {
 router.post("/update", auth, async function (req, res, next) {
     try {
         await Client.update(
-            {
-                company: req.body.company,
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                date: req.body.date,
-                phone: req.body.phone,
-                address: req.body.address,
-                email: req.body.email,
-                postal: req.body.postal,
-            },
+            req.body,
             {
                 where: {
                     id: req.body.id,
