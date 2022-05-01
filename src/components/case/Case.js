@@ -8,6 +8,10 @@ import {
     Table,
     message,
     Button,
+    Form,
+    Input,
+    Select,
+    Modal,
     Descriptions,
 } from "antd";
 import axios from "axios";
@@ -17,6 +21,9 @@ import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
 import store from "../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
+
+const { TextArea } = Input;
+const { Option } = Select;
 
 class Case extends React.Component {
     static propTypes = {
@@ -33,13 +40,21 @@ class Case extends React.Component {
         this.reloadPage = this.reloadPage.bind(this);
         this.handleDel = this.handleDel.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
+        this.loadSMSTemplates = this.loadSMSTemplates.bind(this);
+        this.onSMSChange = this.onSMSChange.bind(this);
+        this.onSMSSend = this.onSMSSend.bind(this);
+
+        this.smsTemplates = [];
+        this.formRef = React.createRef();
 
         let self = this;
 
         this.state = {
+            isModalVisible: false,
             dataSource: [],
             count: 0,
             limit: 20,
+            smsReceiver: "",
             bSearchMode: false,
             columns: [
                 {
@@ -63,7 +78,20 @@ class Case extends React.Component {
                     title: "Phone",
                     key: "phone",
                     render: function (text, record, index) {
-                        return record.client.phone;
+                        return (
+                            <Button
+                                type="link"
+                                size="small"
+                                onClick={() => {
+                                    self.setState({
+                                        smsReceiver: record.client.phone,
+                                        isModalVisible: true,
+                                    });
+                                }}
+                            >
+                                {record.client.phone}
+                            </Button>
+                        );
                     },
                 },
                 {
@@ -239,6 +267,8 @@ class Case extends React.Component {
     componentDidMount() {
         window.document.title = "Cases - TeraDrive";
 
+        this.loadSMSTemplates();
+
         this.loadPage(1, 20);
 
         let action = {
@@ -251,6 +281,34 @@ class Case extends React.Component {
     reloadPage() {
         this.setState({ bSearchMode: false });
         this.loadPage(1, 20);
+    }
+
+    async loadSMSTemplates() {
+        try {
+            this.setLoading(true);
+
+            const { cookies } = this.props;
+
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "api/template/sms/list",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            this.setLoading(false);
+
+            if (1 === res.data.code) {
+                return this.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                this.smsTemplates = res.data.data.data;
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            message.error(err.message);
+            this.setLoading(false);
+        }
     }
 
     onTableTitle() {
@@ -270,65 +328,194 @@ class Case extends React.Component {
         );
     }
 
+    onSMSChange(value) {
+        for (let i = 0; i < this.smsTemplates.length; ++i) {
+            if (this.smsTemplates[i].id === value) {
+                this.formRef.current.setFieldsValue({
+                    content: this.smsTemplates[i].content,
+                });
+            }
+        }
+    }
+
+    async onSMSSend(values) {
+        try {
+            this.setLoading(true);
+            this.setState({ isModalVisible: false });
+
+            const { cookies } = this.props;
+
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "api/template/sms/send",
+                headers: { token: cookies.get("token") },
+                data: values,
+            });
+
+            this.setLoading(false);
+
+            if (1 === res.data.code) {
+                return this.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                this.smsTemplates = res.data.data.data;
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            message.error(err.message);
+            this.setLoading(false);
+        }
+    }
+
     render() {
         return (
-            <Table
-                dataSource={this.state.dataSource}
-                columns={this.state.columns}
-                pagination={{
-                    position: ["bottomLeft"],
-                    total: this.state.count,
-                    showTotal: (total, range) => `Total: ${total} `,
-                    pageSize: this.state.limit,
-                    showQuickJumper: true,
-                    onChange: this.onPageChange,
-                    pageSizeOptions: [20, 100, 500],
-                    onShowSizeChange: this.onShowSizeChange,
-                }}
-                title={this.onTableTitle}
-                rowKey={(record) => record.id}
-                expandable={{
-                    expandedRowRender: (record) => (
-                        <Descriptions size="small" column={3}>
-                            <Descriptions.Item label="Device Type">
-                                {record.type}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Todo">
-                                {record.todo}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Malfunction">
-                                {record.malfunction}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Quote">
-                                {record.quote}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Paid">
-                                {record.paid}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Ok to Open">
-                                {record.open ? "Yes" : "No"}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Format to">
-                                {record.format}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Refered by">
-                                {record.referer}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Target Drive">
-                                {record.target}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Received On">
-                                {record.received}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Approved On">
-                                {record.approved}
-                            </Descriptions.Item>
-                        </Descriptions>
-                    ),
-                    rowExpandable: (record) =>
-                        record.username !== "Not Expandable",
-                }}
-            />
+            <Row>
+                <Modal
+                    title="SMS"
+                    visible={this.state.isModalVisible}
+                    onOk={() => {
+                        this.formRef.current.submit();
+                    }}
+                    onCancel={() => {
+                        this.setState({
+                            isModalVisible: false,
+                        });
+                    }}
+                    destroyOnClose={true}
+                >
+                    <Form
+                        name="control-ref"
+                        initialValues={{
+                            phone: this.state.smsReceiver,
+                        }}
+                        onFinish={this.onSMSSend}
+                        ref={this.formRef}
+                        preserve={false}
+                        labelCol={{ span: 4 }}
+                    >
+                        <Form.Item
+                            colon={false}
+                            label="Receiver"
+                            name="phone"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Input Your Receiver",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Your Receiver" disabled />
+                        </Form.Item>
+
+                        <Form.Item
+                            colon={false}
+                            label="Template"
+                            name="template"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Select
+                                showSearch
+                                style={{ width: "100%" }}
+                                placeholder="Please select a template"
+                                optionFilterProp="children"
+                                onChange={this.onSMSChange}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {this.smsTemplates.map((value, index) => {
+                                    return (
+                                        <Option value={value.id} key={value.id}>
+                                            {value.name}
+                                        </Option>
+                                    );
+                                })}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item
+                            colon={false}
+                            label="Content"
+                            name="content"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "The length is at least 5",
+                                    min: 5,
+                                },
+                            ]}
+                        >
+                            <TextArea
+                                placeholder="SMS Content"
+                                maxLength="250"
+                            />
+                        </Form.Item>
+                    </Form>
+                </Modal>
+                <Table
+                    dataSource={this.state.dataSource}
+                    columns={this.state.columns}
+                    pagination={{
+                        position: ["bottomLeft"],
+                        total: this.state.count,
+                        showTotal: (total, range) => `Total: ${total} `,
+                        pageSize: this.state.limit,
+                        showQuickJumper: true,
+                        onChange: this.onPageChange,
+                        pageSizeOptions: [20, 100, 500],
+                        onShowSizeChange: this.onShowSizeChange,
+                    }}
+                    title={this.onTableTitle}
+                    rowKey={(record) => record.id}
+                    expandable={{
+                        expandedRowRender: (record) => (
+                            <Descriptions size="small" column={3}>
+                                <Descriptions.Item label="Device Type">
+                                    {record.type}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Todo">
+                                    {record.todo}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Malfunction">
+                                    {record.malfunction}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Quote">
+                                    {record.quote}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Paid">
+                                    {record.paid}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Ok to Open">
+                                    {record.open ? "Yes" : "No"}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Format to">
+                                    {record.format}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Refered by">
+                                    {record.referer}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Target Drive">
+                                    {record.target}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Received On">
+                                    {record.received}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Approved On">
+                                    {record.approved}
+                                </Descriptions.Item>
+                            </Descriptions>
+                        ),
+                        rowExpandable: (record) =>
+                            record.username !== "Not Expandable",
+                    }}
+                />
+            </Row>
         );
     }
 }

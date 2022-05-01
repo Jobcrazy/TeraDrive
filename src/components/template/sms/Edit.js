@@ -170,7 +170,7 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
-                        <TextArea placeholder="Password" maxLength="250"/>
+                        <TextArea placeholder="SMS Template Content" maxLength="250"/>
                     </Form.Item>
 
                     <Form.Item

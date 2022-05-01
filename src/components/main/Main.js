@@ -150,6 +150,7 @@ class Main extends React.Component {
                                 Staff
                             </Menu.Item>
                             <Menu.SubMenu
+                                key="/main/templates"
                                 title="Templates"
                                 icon={<FileWordOutlined />}
                             >
