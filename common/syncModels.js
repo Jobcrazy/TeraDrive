@@ -3,6 +3,7 @@ const User = require("../model/user");
 const Client = require("../model/client");
 const Case = require("../model/case");
 const File = require("../model/file");
+const SMS = require("../model/sms");
 const sequelize = require("./sequelize");
 const utils = require("./utils");
 
