@@ -39,4 +39,8 @@ module.exports = {
         code: 9,
         message: "IO error",
     },
+    error_sms: {
+        code: 9,
+        message: "Haven't integrated SMS Service",
+    },
 };

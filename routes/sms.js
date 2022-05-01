@@ -101,4 +101,17 @@ router.post("/delete", auth, async function (req, res, next) {
     }
 });
 
+/**
+ * Delete a SMS template
+ */
+router.post("/send", auth, async function (req, res, next) {
+    try {
+        console.log(req.body);
+        utils.SendError(res, errorCode.error_sms);
+    } catch (error) {
+        console.log(error);
+        utils.SendError(res, error);
+    }
+});
+
 module.exports = router;
