@@ -369,7 +369,7 @@ class Case extends React.Component {
 
     render() {
         return (
-            <Row>
+            <>
                 <Modal
                     title="SMS"
                     visible={this.state.isModalVisible}
@@ -515,7 +515,7 @@ class Case extends React.Component {
                             record.username !== "Not Expandable",
                     }}
                 />
-            </Row>
+            </>
         );
     }
 }
