@@ -102,10 +102,11 @@ router.post("/delete", auth, async function (req, res, next) {
 });
 
 /**
- * Delete a SMS template
+ * Send SMS
  */
 router.post("/send", auth, async function (req, res, next) {
     try {
+        // TODO: Integrate the SMS service
         console.log(req.body);
         utils.SendError(res, errorCode.error_sms);
     } catch (error) {
