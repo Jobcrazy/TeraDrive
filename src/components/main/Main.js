@@ -22,6 +22,8 @@ const StaffPage = React.lazy(() => import("../staff/Staff"));
 const StaffEdit = React.lazy(() => import("../staff/Edit"));
 const CustomerPage = React.lazy(() => import("../customer/Customer"));
 const CustomerEdit = React.lazy(() => import("../customer/Edit"));
+const SMSPage = React.lazy(() => import("../template/sms/SMS"));
+const SMSEdit = React.lazy(() => import("../template/sms/Edit"));
 const PasswordPage = React.lazy(() => import("../password/Password"));
 const LogoutPage = React.lazy(() => import("../logout/Logout"));
 
@@ -201,6 +203,21 @@ class Main extends React.Component {
                                 exact
                             />
                             <Route
+                                path="/main/staff/edit/:id"
+                                component={StaffEdit}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/sms"
+                                component={SMSPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/sms/edit/:id"
+                                component={SMSEdit}
+                                exact
+                            />
+                            <Route
                                 path="/main/customers"
                                 component={CustomerPage}
                                 exact
@@ -213,11 +230,6 @@ class Main extends React.Component {
                             <Route
                                 path="/main/logout"
                                 component={LogoutPage}
-                                exact
-                            />
-                            <Route
-                                path="/main/staff/edit/:id"
-                                component={StaffEdit}
                                 exact
                             />
                         </Switch>
