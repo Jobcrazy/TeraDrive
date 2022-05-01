@@ -14,6 +14,7 @@
         "formidable": "^1.2.1",
         "morgan": "~1.9.0",
         "mysql2": "^2.3.3",
-        "sequelize": "^6.19.0"
+        "sequelize": "^6.19.0",
+        "twilio": "^3.76.1"
     }
 }

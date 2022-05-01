@@ -41,6 +41,6 @@ module.exports = {
     },
     error_sms: {
         code: 9,
-        message: "Haven't integrated SMS Service",
+        message: "Validate phone number and sms content",
     },
 };

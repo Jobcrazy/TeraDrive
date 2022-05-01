@@ -106,9 +106,30 @@ router.post("/delete", auth, async function (req, res, next) {
  */
 router.post("/send", auth, async function (req, res, next) {
     try {
-        // TODO: Integrate the SMS service
-        console.log(req.body);
-        utils.SendError(res, errorCode.error_sms);
+        // No body and destination number
+        if(!req.body.to || !req.body.body) utils.SendError(res, errorCode.error_sms);
+
+
+        const textNumRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+
+        let textToNumber = textNumRegex.exec(req.body.to)[0];
+        let textBody = req.body.body;
+        
+        const accountSid = process.env.TWILIO_ACCOUNT_SID;
+        const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+        const textFromNumber = "+17787439209";
+        const client = require('twilio')(accountSid, authToken);
+
+        await client.messages
+        .create({
+            body: textBody,
+            from: textFromNumber,
+            to: textToNumber
+        })
+        .then(message => console.log(message));
+
+        utils.SendResult(res);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);
