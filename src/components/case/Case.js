@@ -357,7 +357,7 @@ class Case extends React.Component {
             if (1 === res.data.code) {
                 return this.props.history.push("/login");
             } else if (0 === res.data.code) {
-                this.smsTemplates = res.data.data.data;
+                message.success("Message Sent");
             } else {
                 message.error(res.data.message);
             }
