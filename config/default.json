@@ -28,5 +28,11 @@
                 "remove_idle_time": 1000
             }
         }
+    },
+    "sms": {
+        "id": "",
+        "key": "",
+        "country": "CA",
+        "from": ""
     }
 }

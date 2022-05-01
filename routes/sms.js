@@ -4,6 +4,9 @@ const auth = require("../common/auth");
 const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
 const SMS = require("../model/sms");
+const config = require("config");
+const PNF = require('google-libphonenumber').PhoneNumberFormat;
+const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
 /**
  * Get all SMS template
@@ -15,7 +18,7 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await SMS.count();
-        let cases = await SMS.findAll({ offset, limit });
+        let cases = await SMS.findAll({offset, limit});
 
         let data = {
             count,
@@ -106,28 +109,25 @@ router.post("/delete", auth, async function (req, res, next) {
  */
 router.post("/send", auth, async function (req, res, next) {
     try {
-        // No body and destination number
-        if(!req.body.to || !req.body.body) utils.SendError(res, errorCode.error_sms);
+        // No content body or destination number
+        if (!req.body.phone || !req.body.content) {
+            utils.SendError(res, errorCode.error_invalid_sms);
+        }
 
+        const config_sms = config.get("sms");
+        const number = phoneUtil.parseAndKeepRawInput(req.body.phone, config_sms.country);
+        const textToNumber = phoneUtil.format(number, PNF.E164);
+        const accountSid = config_sms.id;
+        const authToken = config_sms.key;
+        const textFromNumber = config_sms.from;
+        const smsClient = require('twilio')(accountSid, authToken);
 
-        const textNumRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-
-        let textToNumber = textNumRegex.exec(req.body.to)[0];
-        let textBody = req.body.body;
-        
-        const accountSid = process.env.TWILIO_ACCOUNT_SID;
-        const authToken = process.env.TWILIO_AUTH_TOKEN;
-
-        const textFromNumber = "+17787439209";
-        const client = require('twilio')(accountSid, authToken);
-
-        await client.messages
-        .create({
-            body: textBody,
+        let message = await smsClient.messages.create({
+            body: req.body.content,
             from: textFromNumber,
             to: textToNumber
-        })
-        .then(message => console.log(message));
+        });
+        console.log(message);
 
         utils.SendResult(res);
     } catch (error) {

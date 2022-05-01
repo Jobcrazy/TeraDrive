@@ -39,8 +39,8 @@ module.exports = {
         code: 9,
         message: "IO error",
     },
-    error_sms: {
-        code: 9,
-        message: "Validate phone number and sms content",
+    error_invalid_sms: {
+        code: 10,
+        message: "Invalid number or content",
     },
 };
