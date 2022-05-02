@@ -112,7 +112,7 @@ class Case extends React.Component {
                                     self.setState({
                                         emailReceiver: record.client.email,
                                         isEmailModalVisible: true,
-                                    });                                    
+                                    });
                                 }}
                             >
                                 {record.client.email}
@@ -513,15 +513,18 @@ class Case extends React.Component {
                     onOk={() => {
                         this.setState({
                             isEmailModalVisible: false,
+                            emailContent: "",
                         });
                         this.sendEmail(this.state.emailReceiver);
                     }}
                     onCancel={() => {
                         this.setState({
                             isEmailModalVisible: false,
+                            emailContent: "",
                         });
                     }}
                     destroyOnClose={true}
+                    width="80vw"
                 >
                     <Form
                         name="control-ref"
