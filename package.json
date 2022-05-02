@@ -1,9 +1,10 @@
 {
-    "name": "comp-4800-backend",
+    "name": "tera",
     "version": "1.0.1",
     "private": true,
     "scripts": {
         "start": "node ./server",
+        "publish": "pkg -t node12-win-x64 -c package.json server.js",
         "debug": "node inspect ./server"
     },
     "dependencies": {
@@ -17,5 +18,14 @@
         "mysql2": "^2.3.3",
         "sequelize": "^6.19.0",
         "twilio": "^3.76.1"
+    },
+    "pkg": {
+        "assets": [
+
+        ],
+        "targets": [
+            "node12-win-x64"
+        ],
+        "outputPath": "dist"
     }
 }

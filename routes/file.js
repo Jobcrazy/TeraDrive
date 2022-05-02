@@ -11,7 +11,7 @@ const User = require("../model/user");
 // File upload
 router.post("/upload", auth, function (req, res) {
     // Make directories
-    let publicDir = __dirname.replace("routes", "public/");
+    let publicDir = process.cwd() + "/public/";
     let uploadDir = publicDir + "uploads/";
     if (
         !utils.mkdirsSync(publicDir, "0777") ||
