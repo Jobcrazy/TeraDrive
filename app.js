@@ -8,6 +8,7 @@ const userRouter = require("./routes/user");
 const clientRouter = require("./routes/client");
 const caseRouter = require("./routes/case");
 const smsRouter = require("./routes/sms");
+const emailRouter = require("./routes/email");
 const fileRouter = require("./routes/file");
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/user", userRouter);
 app.use("/api/client", clientRouter);
 app.use("/api/case", caseRouter);
 app.use("/api/template/sms", smsRouter);
+app.use("/api/template/email", emailRouter);
 app.use("/api/file", fileRouter);
 
 module.exports = app;

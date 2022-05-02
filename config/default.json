@@ -10,7 +10,8 @@
                 "max_connections": 5,
                 "min_connections": 0,
                 "connect_time_out": 5000,
-                "remove_idle_time": 1000
+                "remove_idle_time": 1000,
+                "logging": true
             }
         }
     },
@@ -25,7 +26,8 @@
                 "max_connections": 5,
                 "min_connections": 0,
                 "connect_time_out": 5000,
-                "remove_idle_time": 1000
+                "remove_idle_time": 1000,
+                "logging": false
             }
         }
     },

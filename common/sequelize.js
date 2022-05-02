@@ -26,6 +26,7 @@ function initSequelize() {
                     acquire: config_mysql.connect_time_out,
                     evict: config_mysql.remove_idle_time,
                 },
+                logging: config_mysql.logging,
             }
         );
         console.log("Database Initialized!");

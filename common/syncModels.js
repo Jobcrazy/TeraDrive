@@ -4,6 +4,7 @@ const Client = require("../model/client");
 const Case = require("../model/case");
 const File = require("../model/file");
 const SMS = require("../model/sms");
+const Email = require("../model/email");
 const sequelize = require("./sequelize");
 const utils = require("./utils");
 
