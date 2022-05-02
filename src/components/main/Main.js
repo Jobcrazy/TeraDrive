@@ -24,6 +24,8 @@ const CustomerPage = React.lazy(() => import("../customer/Customer"));
 const CustomerEdit = React.lazy(() => import("../customer/Edit"));
 const SMSPage = React.lazy(() => import("../template/sms/SMS"));
 const SMSEdit = React.lazy(() => import("../template/sms/Edit"));
+const EmailPage = React.lazy(() => import("../template/email/Email"));
+const EmailEdit = React.lazy(() => import("../template/email/Edit"));
 const PasswordPage = React.lazy(() => import("../password/Password"));
 const LogoutPage = React.lazy(() => import("../logout/Logout"));
 
@@ -125,12 +127,12 @@ class Main extends React.Component {
                             onClick={this.onMenuItemClick}
                             theme="dark"
                         >
-                            <Menu.Item
+                            {/* <Menu.Item
                                 key="/main/welcome"
                                 icon={<FlagOutlined />}
                             >
                                 Welcome
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item
                                 key="/main/cases"
                                 icon={<DatabaseOutlined />}
@@ -177,12 +179,12 @@ class Main extends React.Component {
                     </Sider>
                     <Layout style={{ padding: "24px 24px 24px" }}>
                         <Switch>
-                            <Redirect from="/main/" to="/main/welcome" exact />
-                            <Route
+                            <Redirect from="/main/" to="/main/cases" exact />
+                            {/* <Route
                                 path="/main/welcome"
                                 component={WelcomePage}
                                 exact
-                            />
+                            /> */}
                             <Route
                                 path="/main/cases"
                                 component={CasePage}
@@ -216,6 +218,16 @@ class Main extends React.Component {
                             <Route
                                 path="/main/templates/sms/edit/:id"
                                 component={SMSEdit}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/email"
+                                component={EmailPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/email/edit/:id"
+                                component={EmailEdit}
                                 exact
                             />
                             <Route

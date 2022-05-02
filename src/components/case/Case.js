@@ -41,11 +41,15 @@ class Case extends React.Component {
         this.handleDel = this.handleDel.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
         this.loadSMSTemplates = this.loadSMSTemplates.bind(this);
+        this.loadEmailTemplates = this.loadEmailTemplates.bind(this);
         this.onSMSChange = this.onSMSChange.bind(this);
+        this.onEmailChange = this.onEmailChange.bind(this);
         this.onSMSSend = this.onSMSSend.bind(this);
 
         this.smsTemplates = [];
+        this.emailTemplates = [];
         this.formRef = React.createRef();
+        this.formEmailRef = React.createRef();
 
         let self = this;
 
@@ -53,8 +57,10 @@ class Case extends React.Component {
             isModalVisible: false,
             dataSource: [],
             count: 0,
+            emailContent: "",
             limit: 20,
             smsReceiver: "",
+            emailReceiver: "",
             bSearchMode: false,
             columns: [
                 {
@@ -102,9 +108,12 @@ class Case extends React.Component {
                             <Button
                                 type="link"
                                 size="small"
-                                onClick={() =>
-                                    self.sendEmail(record.client.email)
-                                }
+                                onClick={() => {
+                                    self.setState({
+                                        emailReceiver: record.client.email,
+                                        isEmailModalVisible: true,
+                                    });                                    
+                                }}
                             >
                                 {record.client.email}
                             </Button>
@@ -268,6 +277,7 @@ class Case extends React.Component {
         window.document.title = "Cases - TeraDrive";
 
         this.loadSMSTemplates();
+        this.loadEmailTemplates();
 
         this.loadPage(1, 20);
 
@@ -311,6 +321,34 @@ class Case extends React.Component {
         }
     }
 
+    async loadEmailTemplates() {
+        try {
+            this.setLoading(true);
+
+            const { cookies } = this.props;
+
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "api/template/email/list",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            this.setLoading(false);
+
+            if (1 === res.data.code) {
+                return this.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                this.emailTemplates = res.data.data.data;
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            message.error(err.message);
+            this.setLoading(false);
+        }
+    }
+
     onTableTitle() {
         return (
             <Row>
@@ -333,6 +371,16 @@ class Case extends React.Component {
             if (this.smsTemplates[i].id === value) {
                 this.formRef.current.setFieldsValue({
                     content: this.smsTemplates[i].content,
+                });
+            }
+        }
+    }
+
+    onEmailChange(value) {
+        for (let i = 0; i < this.emailTemplates.length; ++i) {
+            if (this.emailTemplates[i].id === value) {
+                this.setState({
+                    emailContent: this.emailTemplates[i].content,
                 });
             }
         }
@@ -458,6 +506,87 @@ class Case extends React.Component {
                         </Form.Item>
                     </Form>
                 </Modal>
+
+                <Modal
+                    title="Email"
+                    visible={this.state.isEmailModalVisible}
+                    onOk={() => {
+                        this.setState({
+                            isEmailModalVisible: false,
+                        });
+                        this.sendEmail(this.state.emailReceiver);
+                    }}
+                    onCancel={() => {
+                        this.setState({
+                            isEmailModalVisible: false,
+                        });
+                    }}
+                    destroyOnClose={true}
+                >
+                    <Form
+                        name="control-ref"
+                        initialValues={{
+                            email: this.state.emailReceiver,
+                        }}
+                        onFinish={this.onSMSSend}
+                        ref={this.formEmailRef}
+                        preserve={false}
+                        labelCol={{ span: 4 }}
+                    >
+                        <Form.Item
+                            colon={false}
+                            label="Receiver"
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please Input Your Receiver",
+                                },
+                            ]}
+                        >
+                            <Input placeholder="Your Receiver" disabled />
+                        </Form.Item>
+
+                        <Form.Item
+                            colon={false}
+                            label="Template"
+                            name="template"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                        >
+                            <Select
+                                showSearch
+                                style={{ width: "100%" }}
+                                placeholder="Please select a template"
+                                optionFilterProp="children"
+                                onChange={this.onEmailChange}
+                                filterOption={(input, option) =>
+                                    option.children
+                                        .toLowerCase()
+                                        .indexOf(input.toLowerCase()) >= 0
+                                }
+                            >
+                                {this.emailTemplates.map((value, index) => {
+                                    return (
+                                        <Option value={value.id} key={value.id}>
+                                            {value.name}
+                                        </Option>
+                                    );
+                                })}
+                            </Select>
+                        </Form.Item>
+                    </Form>
+
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: this.state.emailContent,
+                        }}
+                    />
+                </Modal>
+
                 <Table
                     dataSource={this.state.dataSource}
                     columns={this.state.columns}
