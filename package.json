@@ -20,9 +20,7 @@
         "twilio": "^3.76.1"
     },
     "pkg": {
-        "assets": [
-
-        ],
+        "assets": [],
         "targets": [
             "node12-win-x64"
         ],

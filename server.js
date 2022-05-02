@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+const config = require("config");
 var app = require("./app");
 var debug = require("debug")("contract:server");
 var http = require("http");
@@ -11,8 +11,8 @@ var http = require("http");
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || "3000");
+let config_http = config.get("http")
+var port = normalizePort(config_http.port || "3000");
 app.set("port", port);
 
 /**

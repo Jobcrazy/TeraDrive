@@ -36,5 +36,8 @@
         "key": "",
         "country": "CA",
         "from": ""
+    },
+    "http": {
+        "port": 3000
     }
 }
