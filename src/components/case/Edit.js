@@ -14,7 +14,7 @@ import {
     Popconfirm,
     DatePicker,
 } from "antd";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
     DoubleLeftOutlined,
     FolderViewOutlined,
@@ -146,7 +146,10 @@ class UserEdit extends React.Component {
                 if (1 === res.data.code) {
                     self.props.history.push("/login");
                 } else if (0 === res.data.code) {
-                    console.log(res.data.data);
+                    console.log(moment.utc(
+                        new Date(res.data.data.received),
+                        "America/Vancouver"
+                    ));
                     self.formRef.current.setFieldsValue({
                         clientId: res.data.data.client.id,
                         drop: res.data.data.drop,
@@ -163,21 +166,17 @@ class UserEdit extends React.Component {
                         format: res.data.data.format,
                         target: res.data.data.target,
                         referer: res.data.data.referer,
-                        received: moment(
+                        received: moment.utc(
                             new Date(res.data.data.received),
                             "YYYY/MM/DD"
-                        )
-                            .endOf("day")
-                            .add(0, "days"),
-                        approved: moment(
+                        ),
+                        approved: moment.utc(
                             new Date(res.data.data.approved),
                             "YYYY/MM/DD"
-                        )
-                            .endOf("day")
-                            .add(0, "days"),
+                        ),
                     });
                     self.setState({
-                        attachments: JSON.parse(res.data.data.files)
+                        attachments: JSON.parse(res.data.data.files),
                     });
                 } else {
                     message.error(res.data.message);
@@ -206,8 +205,6 @@ class UserEdit extends React.Component {
     }
 
     onFinish(values) {
-        this.setLoading(true);
-
         let url = "api/case/create";
         if ("0" !== this.id) {
             url = "api/case/update";
@@ -215,6 +212,8 @@ class UserEdit extends React.Component {
 
         values.id = this.id;
         values.files = JSON.stringify(this.state.attachments);
+        values.received = values.received.format("YYYY-MM-DD");
+        values.approved = values.approved.format("YYYY-MM-DD");
 
         let self = this;
         const { cookies } = self.props;
