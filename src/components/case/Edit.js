@@ -168,13 +168,13 @@ class UserEdit extends React.Component {
                             "YYYY/MM/DD"
                         )
                             .endOf("day")
-                            .add(1, "days"),
+                            .add(0, "days"),
                         approved: moment(
                             new Date(res.data.data.approved),
                             "YYYY/MM/DD"
                         )
                             .endOf("day")
-                            .add(1, "days"),
+                            .add(0, "days"),
                     });
                     self.setState({
                         attachments: JSON.parse(res.data.data.files)
