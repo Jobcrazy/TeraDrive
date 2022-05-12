@@ -69,26 +69,22 @@ const Case = sequelize.define(
             // Recieved on
             type: DataTypes.DATEONLY,
             allowNull: true,
-            defaultValue: DataTypes.NOW,
         },
         approved: {
             // Approved on
             type: DataTypes.DATEONLY,
             allowNull: true,
-            defaultValue: DataTypes.NOW,
         },
         quoted: {
             // Quote sent on
             type: DataTypes.DATEONLY,
             allowNull: true,
-            defaultValue: DataTypes.NOW,
         },
         
         completed: {
             // Completed on
             type: DataTypes.DATEONLY,
             allowNull: true,
-            defaultValue: DataTypes.NOW,
         },
         files: {
             type: DataTypes.TEXT,

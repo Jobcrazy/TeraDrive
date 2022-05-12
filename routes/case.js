@@ -14,9 +14,18 @@ router.post("/list", auth, async function (req, res, next) {
         let page = req.body.page ? req.body.page : 1;
         let limit = req.body.limit ? req.body.limit : 20;
         let offset = (page - 1) * limit;
+        let assignedTo = req.body.assigned;
 
         const count = await Case.count();
-        let cases = await Case.findAll({ offset, limit, include: Client });
+        let cases = await Case.findAll({
+            where: assignedTo ? 
+            {
+                assigned : assignedTo
+            } :
+            {},
+            offset:offset,
+            limit:limit,
+            include: Client });
 
         let data = {
             count,
@@ -44,7 +53,7 @@ router.post("/detail", auth, async function (req, res, next) {
         });
 
         if (!result) {
-            utils.SendError(res, errorCode.error_no_user);
+            utils.SendError(res, errorCode.error_no_case);
             return;
         }
 
