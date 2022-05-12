@@ -611,9 +611,6 @@ class Case extends React.Component {
                                 <Descriptions.Item label="Device Type">
                                     {record.type}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="Todo">
-                                    {record.todo}
-                                </Descriptions.Item>
                                 <Descriptions.Item label="Malfunction">
                                     {record.malfunction}
                                 </Descriptions.Item>
@@ -629,7 +626,7 @@ class Case extends React.Component {
                                 <Descriptions.Item label="Format to">
                                     {record.format}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="Refered by">
+                                <Descriptions.Item label="Referred by">
                                     {record.referer}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Target Drive">
@@ -640,6 +637,12 @@ class Case extends React.Component {
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Approved On">
                                     {record.approved}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Quote sent on">
+                                    {record.quotesent}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Completed on">
+                                    {record.completed}
                                 </Descriptions.Item>
                             </Descriptions>
                         ),

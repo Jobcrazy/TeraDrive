@@ -157,7 +157,6 @@ class UserEdit extends React.Component {
                         progress: res.data.data.progress,
                         notes: res.data.data.notes,
                         type: res.data.data.type,
-                        todo: res.data.data.todo,
 
                         malfunction: res.data.data.malfunction,
                         quote: res.data.data.quote,
@@ -172,6 +171,14 @@ class UserEdit extends React.Component {
                         ),
                         approved: moment.utc(
                             new Date(res.data.data.approved),
+                            "YYYY/MM/DD"
+                        ),
+                        quotesent: moment.utc(
+                            new Date(res.data.data.quotesent),
+                            "YYYY/MM/DD"
+                        ),
+                        completed: moment.utc(
+                            new Date(res.data.data.completed),
                             "YYYY/MM/DD"
                         ),
                     });
@@ -214,6 +221,8 @@ class UserEdit extends React.Component {
         values.files = JSON.stringify(this.state.attachments);
         values.received = values.received.format("YYYY-MM-DD");
         values.approved = values.approved.format("YYYY-MM-DD");
+        values.quotesent = values.quotesent.format("YYYY-MM-DD");
+        values.completed = values.completed.format("YYYY-MM-DD");
 
         let self = this;
         const { cookies } = self.props;
@@ -449,7 +458,7 @@ class UserEdit extends React.Component {
                         name="notes"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
@@ -469,18 +478,6 @@ class UserEdit extends React.Component {
                         <Input placeholder="Device Type" />
                     </Form.Item>
 
-                    <Form.Item
-                        colon={false}
-                        label="Todo"
-                        name="todo"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Todo" />
-                    </Form.Item>
 
                     <Form.Item
                         colon={false}
@@ -508,6 +505,7 @@ class UserEdit extends React.Component {
                     >
                         <InputNumber
                             placeholder="Quote"
+                            prefix = "$"
                             style={{ width: "100%" }}
                         />
                     </Form.Item>
@@ -581,15 +579,15 @@ class UserEdit extends React.Component {
 
                     <Form.Item
                         colon={false}
-                        label="Refered by"
+                        label="Referred by"
                         name="referer"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
-                        <Input placeholder="Refered by" />
+                        <Input placeholder="Referred by" />
                     </Form.Item>
 
                     <Form.Item
@@ -623,6 +621,38 @@ class UserEdit extends React.Component {
                             picker="date"
                             format={"YYYY/MM/DD"}
                             placeholder="Approved on"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        colon={false}
+                        label="Quote sent on"
+                        name="quotesent"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <DatePicker
+                            picker="date"
+                            format={"YYYY/MM/DD"}
+                            placeholder="Quote sent on"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        colon={false}
+                        label="Completed on"
+                        name="completed"
+                        rules={[
+                            {
+                                required: false,
+                            },
+                        ]}
+                    >
+                        <DatePicker
+                            picker="date"
+                            format={"YYYY/MM/DD"}
+                            placeholder="Completed on"
                         />
                     </Form.Item>
 

@@ -205,7 +205,7 @@ class UserEdit extends React.Component {
                         name="company"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
@@ -218,7 +218,7 @@ class UserEdit extends React.Component {
                         name="address"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
@@ -231,7 +231,7 @@ class UserEdit extends React.Component {
                         name="postal"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
