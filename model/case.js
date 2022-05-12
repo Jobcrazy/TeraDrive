@@ -9,10 +9,6 @@ const Case = sequelize.define(
             autoIncrement: true,
             primaryKey: true,
         },
-        drop: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
         status: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -23,14 +19,9 @@ const Case = sequelize.define(
         },
         notes: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         type: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: "",
-        },
-        todo: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "",
@@ -46,9 +37,9 @@ const Case = sequelize.define(
             defaultValue: 0,
         },
         paid: {
-            type: DataTypes.DECIMAL(10, 2),
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: 0,
+            defaultValue: false,
         },
         open: {
             // OK to open
@@ -57,9 +48,8 @@ const Case = sequelize.define(
             defaultValue: false,
         },
         format: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: "",
         },
         target: {
             type: DataTypes.STRING,
@@ -68,19 +58,36 @@ const Case = sequelize.define(
         },
         referer: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             defaultValue: "",
         },
-        received: {
-            // Approved on
-            type: DataTypes.DATEONLY,
+        assigned: {
+            type: DataTypes.STRING,
             allowNull: false,
+        },
+        received: {
+            // Recieved on
+            type: DataTypes.DATEONLY,
+            allowNull: true,
             defaultValue: DataTypes.NOW,
         },
         approved: {
             // Approved on
             type: DataTypes.DATEONLY,
-            allowNull: false,
+            allowNull: true,
+            defaultValue: DataTypes.NOW,
+        },
+        quoted: {
+            // Quote sent on
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+            defaultValue: DataTypes.NOW,
+        },
+        
+        completed: {
+            // Completed on
+            type: DataTypes.DATEONLY,
+            allowNull: true,
             defaultValue: DataTypes.NOW,
         },
         files: {

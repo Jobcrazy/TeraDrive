@@ -31,9 +31,13 @@ const Client = sequelize.define(
         },
         postal: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         address: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        drop: {
             type: DataTypes.STRING,
             allowNull: false,
         },
