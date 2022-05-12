@@ -143,7 +143,7 @@ class Customer extends React.Component {
             headers: { token: cookies.get("token") },
             data: { id },
         })
-            .then(function (res) {
+            .then(function (res) {  //Promise
                 self.setLoading(false);
                 if (1 === res.data.code) {
                     return self.props.history.push("/login");
@@ -171,7 +171,6 @@ class Customer extends React.Component {
                 headers: { token: cookies.get("token") },
                 data: { page: page, limit: pageSize },
             });
-
 
             this.setLoading(false);
             if (1 === res.data.code) {
@@ -250,6 +249,9 @@ class Customer extends React.Component {
                             </Descriptions.Item>
                             <Descriptions.Item label="Postal">
                                 {record.postal}
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Drop off Location">
+                                {record.drop}
                             </Descriptions.Item>
                         </Descriptions>
                     ),

@@ -141,7 +141,7 @@ class Case extends React.Component {
                 {
                     title: "Assigned To",
                     render: function (text, record, index) {
-                        return constant.status[record.status - 1].text;
+                        return constant.assigned[record.assigned - 1].text;
                     },
                 },
                 {
@@ -624,13 +624,13 @@ class Case extends React.Component {
                                     {record.quote}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Paid">
-                                    {record.paid}
+                                    {record.paid ? "Yes" : "No"}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Ok to Open">
                                     {record.open ? "Yes" : "No"}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Format to">
-                                    {record.format}
+                                    {constant.format[record.format - 1].text}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Referred by">
                                     {record.referer}
@@ -649,6 +649,9 @@ class Case extends React.Component {
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Completed on">
                                     {record.completed}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Drop off Location">
+                                    {record.client.drop}
                                 </Descriptions.Item>
                             </Descriptions>
                         ),

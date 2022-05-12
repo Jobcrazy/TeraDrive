@@ -57,6 +57,7 @@ class UserEdit extends React.Component {
                         company: res.data.data.company,
                         address: res.data.data.address,
                         postal: res.data.data.postal,
+                        drop: res.data.data.drop,
                     });
                 } else {
                     message.error(res.data.message);
@@ -237,7 +238,18 @@ class UserEdit extends React.Component {
                     >
                         <Input placeholder="Postal" />
                     </Form.Item>
-
+                    <Form.Item
+                        colon={false}
+                        label="Drop Off Location"
+                        name="drop"
+                        rules={[
+                            {
+                                required: false,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Drop Off Location" />
+                    </Form.Item>
                     <Form.Item
                         wrapperCol={{
                             offset: 3,

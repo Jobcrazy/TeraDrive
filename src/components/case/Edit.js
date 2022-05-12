@@ -152,7 +152,6 @@ class UserEdit extends React.Component {
                     ));
                     self.formRef.current.setFieldsValue({
                         clientId: res.data.data.client.id,
-                        drop: res.data.data.drop,
                         status: res.data.data.status,
                         progress: res.data.data.progress,
                         assigned: res.data.data.assigned,
@@ -378,19 +377,6 @@ class UserEdit extends React.Component {
 
                     <Form.Item
                         colon={false}
-                        label="Drop Off Location"
-                        name="drop"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Drop Off Location" />
-                    </Form.Item>
-
-                    <Form.Item
-                        colon={false}
                         label="Status"
                         name="status"
                         rules={[
@@ -465,7 +451,7 @@ class UserEdit extends React.Component {
                         <Select
                             showSearch
                             style={{ width: "100%" }}
-                            placeholder="Please select a status"
+                            placeholder="Please select"
                             optionFilterProp="children"
                             //onChange={onChange}
                             filterOption={(input, option) =>
@@ -541,22 +527,28 @@ class UserEdit extends React.Component {
                             style={{ width: "100%" }}
                         />
                     </Form.Item>
-
                     <Form.Item
                         colon={false}
                         label="Paid"
                         name="paid"
-                        type="number"
                         rules={[
                             {
                                 required: true,
                             },
                         ]}
                     >
-                        <InputNumber
-                            placeholder="Paid"
+                        <Select
                             style={{ width: "100%" }}
-                        />
+                            placeholder="Please select a state"
+                        >
+                            {constant.paid_or_no.map((value, index) => {
+                                return (
+                                    <Option value={value.value} key={value.id}>
+                                        {value.text}
+                                    </Option>
+                                );
+                            })}
+                        </Select>
                     </Form.Item>
 
                     <Form.Item
@@ -593,7 +585,26 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
-                        <Input placeholder="Format to" />
+                        <Select
+                            showSearch
+                            style={{ width: "100%" }}
+                            placeholder="Format to"
+                            optionFilterProp="children"
+                            //onChange={onChange}
+                            filterOption={(input, option) =>
+                                option.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {constant.format.map((value, index) => {
+                                return (
+                                    <Option value={value.id} key={value.id}>
+                                        {value.text}
+                                    </Option>
+                                );
+                            })}
+                        </Select>
                     </Form.Item>
 
                     <Form.Item
