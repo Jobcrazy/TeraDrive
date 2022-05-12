@@ -139,6 +139,12 @@ class Case extends React.Component {
                     },
                 },
                 {
+                    title: "Assigned To",
+                    render: function (text, record, index) {
+                        return constant.status[record.status - 1].text;
+                    },
+                },
+                {
                     title: "Notes",
                     dataIndex: "notes",
                     key: "notes",
@@ -639,7 +645,7 @@ class Case extends React.Component {
                                     {record.approved}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Quote sent on">
-                                    {record.quotesent}
+                                    {record.quoted}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Completed on">
                                     {record.completed}

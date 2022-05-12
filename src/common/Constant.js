@@ -29,6 +29,11 @@ export default {
         { id: 16, text: "Invoice Sent" },
         { id: 17, text: "Client Away" },
     ],
+    assigned: [
+        { id: 1, text: "Ilya" },
+        { id: 2, text: "Alex" },
+        { id: 3, text: "None" },
+    ],
     yes_or_no: [
         { id: 0, value: false, text: "NO" },
         { id: 1, value: true, text: "YES" },

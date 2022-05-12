@@ -155,6 +155,7 @@ class UserEdit extends React.Component {
                         drop: res.data.data.drop,
                         status: res.data.data.status,
                         progress: res.data.data.progress,
+                        assigned: res.data.data.assigned,
                         notes: res.data.data.notes,
                         type: res.data.data.type,
 
@@ -173,8 +174,8 @@ class UserEdit extends React.Component {
                             new Date(res.data.data.approved),
                             "YYYY/MM/DD"
                         ),
-                        quotesent: moment.utc(
-                            new Date(res.data.data.quotesent),
+                        quoted: moment.utc(
+                            new Date(res.data.data.quoted),
                             "YYYY/MM/DD"
                         ),
                         completed: moment.utc(
@@ -221,7 +222,7 @@ class UserEdit extends React.Component {
         values.files = JSON.stringify(this.state.attachments);
         values.received = values.received.format("YYYY-MM-DD");
         values.approved = values.approved.format("YYYY-MM-DD");
-        values.quotesent = values.quotesent.format("YYYY-MM-DD");
+        values.quoted = values.quoted.format("YYYY-MM-DD");
         values.completed = values.completed.format("YYYY-MM-DD");
 
         let self = this;
@@ -451,6 +452,37 @@ class UserEdit extends React.Component {
                             })}
                         </Select>
                     </Form.Item>
+                    <Form.Item
+                        colon={false}
+                        label="Assigned To"
+                        name="assigned"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Select
+                            showSearch
+                            style={{ width: "100%" }}
+                            placeholder="Please select a status"
+                            optionFilterProp="children"
+                            //onChange={onChange}
+                            filterOption={(input, option) =>
+                                option.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {constant.assigned.map((value, index) => {
+                                return (
+                                    <Option value={value.id} key={value.id}>
+                                        {value.text}
+                                    </Option>
+                                );
+                            })}
+                        </Select>
+                    </Form.Item>
 
                     <Form.Item
                         colon={false}
@@ -505,7 +537,7 @@ class UserEdit extends React.Component {
                     >
                         <InputNumber
                             placeholder="Quote"
-                            prefix = "$"
+                            prefix="$"
                             style={{ width: "100%" }}
                         />
                     </Form.Item>
@@ -626,7 +658,7 @@ class UserEdit extends React.Component {
                     <Form.Item
                         colon={false}
                         label="Quote sent on"
-                        name="quotesent"
+                        name="quoted"
                         rules={[
                             {
                                 required: true,

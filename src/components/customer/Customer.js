@@ -159,35 +159,36 @@ class Customer extends React.Component {
             });
     }
 
-    loadPage(page, pageSize) {
+    async loadPage(page, pageSize) {
         this.setLoading(true);
 
-        let self = this;
-        const { cookies } = self.props;
+        const { cookies } = this.props;
 
-        axios({
-            method: "POST",
-            url: utils.getDomain() + "api/client/list",
-            headers: { token: cookies.get("token") },
-            data: { page: page, limit: pageSize },
-        })
-            .then(function (res) {
-                self.setLoading(false);
-                if (1 === res.data.code) {
-                    return self.props.history.push("/login");
-                } else if (0 === res.data.code) {
-                    self.setState({
-                        dataSource: res.data.data.data,
-                        count: res.data.data.count,
-                    });
-                } else {
-                    message.error(res.data.message);
-                }
-            })
-            .catch(function (err) {
-                message.error(err.message);
-                self.setLoading(false);
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "api/client/list",
+                headers: { token: cookies.get("token") },
+                data: { page: page, limit: pageSize },
             });
+
+
+            this.setLoading(false);
+            if (1 === res.data.code) {
+                return this.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                this.setState({
+                    dataSource: res.data.data.data,
+                    count: res.data.data.count,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        }
+        catch (err) {
+            message.error(err.message);
+            this.setLoading(false);
+        };
     }
 
     componentDidMount() {
