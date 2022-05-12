@@ -14,15 +14,25 @@ router.post("/list", auth, async function (req, res, next) {
         let page = req.body.page ? req.body.page : 1;
         let limit = req.body.limit ? req.body.limit : 20;
         let offset = (page - 1) * limit;
-        let assignedTo = req.body.assigned;
+
+        let assigned = req.body.assigned;
+        let status = req.body.status;
+
+        let whereCondition = {};
+
+        if(assigned){
+            whereCondition.assigned = assigned;
+        }
+
+        if(status){
+            whereCondition.status = status;
+        }
+
+        console.log(whereCondition);
 
         const count = await Case.count();
         let cases = await Case.findAll({
-            where: assignedTo ? 
-            {
-                assigned : assignedTo
-            } :
-            {},
+            where: whereCondition,
             offset:offset,
             limit:limit,
             include: Client });
