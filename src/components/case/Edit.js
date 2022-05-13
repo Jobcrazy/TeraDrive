@@ -263,6 +263,7 @@ class UserEdit extends React.Component {
                         format: res.data.data.format,
                         target: res.data.data.target,
                         referer: res.data.data.referer,
+                        drop: res.data.data.drop,
                         received: moment.utc(
                             new Date(res.data.data.received),
                             "YYYY/MM/DD"
@@ -474,6 +475,20 @@ class UserEdit extends React.Component {
                             })}
                         </Select>
                     </Form.Item>
+
+                    <Form.Item
+                        colon={false}
+                        label="Dropoff Location"
+                        name="drop"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Please input the dropoff location" />
+                    </Form.Item>
+
                     <Form.Item
                         colon={false}
                         label="Status"

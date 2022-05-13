@@ -13,11 +13,18 @@ import {
     Select,
     Modal,
     Descriptions,
+    Tooltip,
 } from "antd";
 import axios from "axios";
 import utils from "../../common/Utils";
 import constant from "../../common/Constant";
-import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
+import {
+    UserAddOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    MailOutlined,
+    PhoneOutlined,
+} from "@ant-design/icons";
 import store from "../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
@@ -42,6 +49,9 @@ class Case extends React.Component {
         this.sendEmail = this.sendEmail.bind(this);
         this.loadSMSTemplates = this.loadSMSTemplates.bind(this);
         this.loadEmailTemplates = this.loadEmailTemplates.bind(this);
+        this.loadStaff = this.loadStaff.bind(this);
+        this.loadStatus = this.loadStatus.bind(this);
+        this.loadProgress = this.loadProgress.bind(this);
         this.onSMSChange = this.onSMSChange.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onSMSSend = this.onSMSSend.bind(this);
@@ -57,6 +67,9 @@ class Case extends React.Component {
             isModalVisible: false,
             dataSource: [],
             count: 0,
+            status: [],
+            progress: [],
+            staff: [],
             emailContent: "",
             limit: 20,
             smsReceiver: "",
@@ -81,46 +94,6 @@ class Case extends React.Component {
                     },
                 },
                 {
-                    title: "Phone",
-                    key: "phone",
-                    render: function (text, record, index) {
-                        return (
-                            <Button
-                                type="link"
-                                size="small"
-                                onClick={() => {
-                                    self.setState({
-                                        smsReceiver: record.client.phone,
-                                        isModalVisible: true,
-                                    });
-                                }}
-                            >
-                                {record.client.phone}
-                            </Button>
-                        );
-                    },
-                },
-                {
-                    title: "Email",
-                    key: "email",
-                    render: function (text, record, index) {
-                        return (
-                            <Button
-                                type="link"
-                                size="small"
-                                onClick={() => {
-                                    self.setState({
-                                        emailReceiver: record.client.email,
-                                        isEmailModalVisible: true,
-                                    });
-                                }}
-                            >
-                                {record.client.email}
-                            </Button>
-                        );
-                    },
-                },
-                {
                     title: "DropOff Location",
                     render: function (text, record, index) {
                         return record.drop;
@@ -129,19 +102,34 @@ class Case extends React.Component {
                 {
                     title: "Status",
                     render: function (text, record, index) {
-                        return constant.status[record.status - 1].text;
+                        for(let i = 0; i < self.state.status.length; i++){
+                            if(text.status == self.state.status[i].id){
+                                return self.state.status[i].content;
+                            }
+                        }
+                        return "";
                     },
                 },
                 {
                     title: "Progress",
                     render: function (text, record, index) {
-                        return constant.progress[record.progress - 1].text;
+                        for(let i = 0; i < self.state.progress.length; i++){
+                            if(text.progress == self.state.progress[i].id){
+                                return self.state.progress[i].content;
+                            }
+                        }
+                        return "";
                     },
                 },
                 {
                     title: "Assigned To",
                     render: function (text, record, index) {
-                        return "test";// constant.assigned[record.assigned - 1].text;
+                        for(let i = 0; i < self.state.staff.length; i++){
+                            if(text.assigned == self.state.staff[i].id){
+                                return self.state.staff[i].username;
+                            }
+                        }
+                        return "";
                     },
                 },
                 {
@@ -156,24 +144,56 @@ class Case extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
-                            <Link to={"/main/cases/edit/" + record.id}>
+                            <Tooltip placement="top" title="SMS">
                                 <Button
                                     type="primary"
                                     size="small"
-                                    icon={<EditOutlined />}
-                                >
-                                    Edit
-                                </Button>
-                            </Link>
+                                    icon={<PhoneOutlined />}
+                                    onClick={() => {
+                                        this.setState({
+                                            smsReceiver: record.client.phone,
+                                            isModalVisible: true,
+                                        });
+                                    }}
+                                />
+                            </Tooltip>
+
+                            <Tooltip placement="top" title="Email">
+                                <Button
+                                    type="primary"
+                                    size="small"
+                                    icon={<MailOutlined />}
+                                    onClick={() => {
+                                        self.setState({
+                                            emailReceiver: record.client.email,
+                                            isEmailModalVisible: true,
+                                        });
+                                    }}
+                                />
+                            </Tooltip>
+
+                            <Tooltip placement="top" title="Edit">
+                                <Link to={"/main/cases/edit/" + record.id}>
+                                    <Button
+                                        type="primary"
+                                        size="small"
+                                        icon={<EditOutlined />}
+                                    />
+                                </Link>
+                            </Tooltip>
 
                             <Popconfirm
                                 placement="right"
                                 title="Are you sure to delete this case?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
-                                <Button danger size="small">
-                                    Delete
-                                </Button>
+                                <Tooltip placement="top" title="Delete">
+                                    <Button
+                                        danger
+                                        size="small"
+                                        icon={<DeleteOutlined />}
+                                    />
+                                </Tooltip>
                             </Popconfirm>
                         </Space>
                     ),
@@ -220,6 +240,96 @@ class Case extends React.Component {
         this.props.history.push("/main/cases/edit/0");
     }
 
+    async loadStaff() {
+        this.setLoading(true);
+
+        let self = this;
+        const { cookies } = self.props;
+
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "/api/user/all",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            self.setLoading(false);
+            if (1 === res.data.code) {
+                self.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                self.setState({
+                    staff: res.data.data,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            self.setLoading(false);
+            message.error(err.message);
+        }
+    }
+
+    async loadStatus() {
+        this.setLoading(true);
+
+        let self = this;
+        const { cookies } = self.props;
+
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "/api/status/all",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            self.setLoading(false);
+            if (1 === res.data.code) {
+                self.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                self.setState({
+                    status: res.data.data,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            self.setLoading(false);
+            message.error(err.message);
+        }
+    }
+
+    async loadProgress() {
+        this.setLoading(true);
+
+        let self = this;
+        const { cookies } = self.props;
+
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "/api/progress/all",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            self.setLoading(false);
+            if (1 === res.data.code) {
+                self.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                self.setState({
+                    progress: res.data.data,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            self.setLoading(false);
+            message.error(err.message);
+        }
+    }
+
     handleDel(id) {
         this.setLoading(true);
 
@@ -248,7 +358,7 @@ class Case extends React.Component {
             });
     }
 
-    loadPage(page, pageSize) {
+    async loadPage(page, pageSize) {
         this.setLoading(true);
 
         let self = this;
@@ -279,13 +389,15 @@ class Case extends React.Component {
             });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         window.document.title = "Cases - TeraDrive";
 
-        this.loadSMSTemplates();
-        this.loadEmailTemplates();
-
-        this.loadPage(1, 20);
+        await this.loadSMSTemplates();
+        await this.loadEmailTemplates();
+        await this.loadStaff();
+        await this.loadStatus();
+        await this.loadProgress();
+        await this.loadPage(1, 20);
 
         let action = {
             type: "setMenuItem",
@@ -614,6 +726,12 @@ class Case extends React.Component {
                     expandable={{
                         expandedRowRender: (record) => (
                             <Descriptions size="small" column={3}>
+                                <Descriptions.Item label="Phone">
+                                    {record.client.phone}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Email">
+                                    {record.client.email}
+                                </Descriptions.Item>
                                 <Descriptions.Item label="Device Type">
                                     {record.type}
                                 </Descriptions.Item>
@@ -630,7 +748,7 @@ class Case extends React.Component {
                                     {record.open ? "Yes" : "No"}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Format to">
-                                    {constant.format[record.format - 1].text}
+                                    {constant.format[record.format].text}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Referred by">
                                     {record.referer}
@@ -649,9 +767,6 @@ class Case extends React.Component {
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Completed on">
                                     {record.completed}
-                                </Descriptions.Item>
-                                <Descriptions.Item label="Drop off Location">
-                                    {record.client.drop}
                                 </Descriptions.Item>
                             </Descriptions>
                         ),

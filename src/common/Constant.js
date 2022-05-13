@@ -1,8 +1,8 @@
 export default {
     format: [
-        { id: 1, text: "Windows" },
-        { id: 2, text: "macOS" },
-        { id: 3, text: "Linux" },
+        { id: 0, text: "Windows" },
+        { id: 1, text: "macOS" },
+        { id: 2, text: "Linux" },
     ],
     yes_or_no: [
         { id: 0, value: false, text: "NO" },

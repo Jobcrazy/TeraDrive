@@ -129,7 +129,7 @@ class Main extends React.Component {
                             style={{ height: "100%", borderRight: 0 }}
                             onClick={this.onMenuItemClick}
                             theme="dark"
-                            defaultOpenKeys={["/main/templates"]}
+                            //defaultOpenKeys={["/main/templates"]}
                         >
                             <Menu.Item
                                 key="/main/cases"
