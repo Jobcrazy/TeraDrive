@@ -81,7 +81,7 @@ router.post("/create", auth, async function (req, res, next) {
 });
 
 /**
- * Update client
+ * Update status
  */
 router.post("/update", auth, async function (req, res, next) {
     try {
@@ -98,7 +98,7 @@ router.post("/update", auth, async function (req, res, next) {
 });
 
 /**
- * Delete client
+ * Delete status
  */
 router.post("/delete", auth, async function (req, res, next) {
     try {
