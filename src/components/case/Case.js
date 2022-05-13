@@ -20,6 +20,8 @@ import utils from "../../common/Utils";
 import constant from "../../common/Constant";
 import {
     UserAddOutlined,
+    SearchOutlined,
+    ControlOutlined,
     EditOutlined,
     DeleteOutlined,
     MailOutlined,
@@ -55,11 +57,16 @@ class Case extends React.Component {
         this.onSMSChange = this.onSMSChange.bind(this);
         this.onEmailChange = this.onEmailChange.bind(this);
         this.onSMSSend = this.onSMSSend.bind(this);
+        this.onSearch = this.onSearch.bind(this);
 
         this.smsTemplates = [];
         this.emailTemplates = [];
         this.formRef = React.createRef();
         this.formEmailRef = React.createRef();
+
+        this.currentStaffId = 0;
+        this.currentStatusId = 0;
+        this.bSearchMode = false;
 
         let self = this;
 
@@ -74,7 +81,6 @@ class Case extends React.Component {
             limit: 20,
             smsReceiver: "",
             emailReceiver: "",
-            bSearchMode: false,
             columns: [
                 {
                     title: "ID",
@@ -102,8 +108,8 @@ class Case extends React.Component {
                 {
                     title: "Status",
                     render: function (text, record, index) {
-                        for(let i = 0; i < self.state.status.length; i++){
-                            if(text.status == self.state.status[i].id){
+                        for (let i = 0; i < self.state.status.length; i++) {
+                            if (text.status == self.state.status[i].id) {
                                 return self.state.status[i].content;
                             }
                         }
@@ -113,8 +119,8 @@ class Case extends React.Component {
                 {
                     title: "Progress",
                     render: function (text, record, index) {
-                        for(let i = 0; i < self.state.progress.length; i++){
-                            if(text.progress == self.state.progress[i].id){
+                        for (let i = 0; i < self.state.progress.length; i++) {
+                            if (text.progress == self.state.progress[i].id) {
                                 return self.state.progress[i].content;
                             }
                         }
@@ -124,8 +130,8 @@ class Case extends React.Component {
                 {
                     title: "Assigned To",
                     render: function (text, record, index) {
-                        for(let i = 0; i < self.state.staff.length; i++){
-                            if(text.assigned == self.state.staff[i].id){
+                        for (let i = 0; i < self.state.staff.length; i++) {
+                            if (text.assigned == self.state.staff[i].id) {
                                 return self.state.staff[i].username;
                             }
                         }
@@ -218,9 +224,6 @@ class Case extends React.Component {
     }
 
     onPageChange(page, size) {
-        if (this.state.bSearchMode) {
-            return;
-        }
         this.loadPage(page, size);
     }
 
@@ -228,10 +231,6 @@ class Case extends React.Component {
         this.setState({
             limit: size,
         });
-
-        if (this.state.bSearchMode) {
-            return;
-        }
 
         this.loadPage(page, size);
     }
@@ -364,11 +363,18 @@ class Case extends React.Component {
         let self = this;
         const { cookies } = self.props;
 
+        let data = { page: page, limit: pageSize };
+
+        if (this.bSearchMode) {
+            data.assigned = this.currentStaffId;
+            data.status = this.currentStatusId;
+        }
+
         axios({
             method: "POST",
             url: utils.getDomain() + "api/case/list",
             headers: { token: cookies.get("token") },
-            data: { page: page, limit: pageSize },
+            data,
         })
             .then(function (res) {
                 self.setLoading(false);
@@ -407,7 +413,7 @@ class Case extends React.Component {
     }
 
     reloadPage() {
-        this.setState({ bSearchMode: false });
+        this.bSearchMode = false;
         this.loadPage(1, 20);
     }
 
@@ -467,10 +473,105 @@ class Case extends React.Component {
         }
     }
 
+    async onSearch(values) {
+        this.bSearchMode = true;
+        this.loadPage(1, 20);
+    }
+
     onTableTitle() {
+        let self = this;
         return (
             <Row>
-                <Col span="18"></Col>
+                <Col span="18">
+                    <Form name="basic" onFinish={this.onSearch} layout="inline">
+                        <Col span="5">
+                            <Form.Item
+                                name="assigned"
+                                rules={[{ required: true }]}
+                            >
+                                <Select
+                                    showSearch
+                                    onChange={(id) => {
+                                        self.currentStaffId = id;
+                                    }}
+                                    style={{ width: "100%" }}
+                                    placeholder="Assigned to"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {this.state.staff.map((value, index) => {
+                                        return (
+                                            <Option
+                                                value={value.id}
+                                                key={value.id}
+                                            >
+                                                {value.username}
+                                            </Option>
+                                        );
+                                    })}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col span="5">
+                            <Form.Item
+                                name="status"
+                                rules={[{ required: true }]}
+                            >
+                                <Select
+                                    showSearch
+                                    style={{ width: "100%" }}
+                                    placeholder="Status"
+                                    optionFilterProp="children"
+                                    onChange={(id) => {
+                                        self.currentStatusId = id;
+                                    }}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    {this.state.status.map((value, index) => {
+                                        return (
+                                            <Option
+                                                value={value.id}
+                                                key={value.id}
+                                            >
+                                                {value.content}
+                                            </Option>
+                                        );
+                                    })}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col>
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    icon={<SearchOutlined />}
+                                >
+                                    Search
+                                </Button>
+                            </Form.Item>
+                        </Col>
+                        <Col>
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    icon={<ControlOutlined />}
+                                    onClick={this.reloadPage}
+                                >
+                                    ShowAll
+                                </Button>
+                            </Form.Item>
+                        </Col>
+                    </Form>
+                </Col>
                 <Col span="6" style={{ textAlign: "right" }}>
                     <Button
                         type="primary"
