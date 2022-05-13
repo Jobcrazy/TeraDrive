@@ -49,6 +49,7 @@ class UserEdit extends React.Component {
         this.attachmentTable = this.attachmentTable.bind(this);
         this.delAttachment = this.delAttachment.bind(this);
         this.onUpload = this.onUpload.bind(this);
+        this.onCustomerChange = this.onCustomerChange.bind(this);
 
         this.attachmentColumn = [
             {
@@ -268,19 +269,31 @@ class UserEdit extends React.Component {
                             new Date(res.data.data.received),
                             "YYYY/MM/DD"
                         ),
-                        approved: moment.utc(
-                            new Date(res.data.data.approved),
-                            "YYYY/MM/DD"
-                        ),
-                        quoted: moment.utc(
-                            new Date(res.data.data.quoted),
-                            "YYYY/MM/DD"
-                        ),
-                        completed: moment.utc(
-                            new Date(res.data.data.completed),
-                            "YYYY/MM/DD"
-                        ),
                     });
+                    if (res.data.data.approved) {
+                        self.formRef.current.setFieldsValue({
+                            approved: moment.utc(
+                                new Date(res.data.data.approved),
+                                "YYYY/MM/DD"
+                            ),
+                        });
+                    }
+                    if (res.data.data.quoted) {
+                        self.formRef.current.setFieldsValue({
+                            quoted: moment.utc(
+                                new Date(res.data.data.quoted),
+                                "YYYY/MM/DD"
+                            ),
+                        });
+                    }
+                    if (res.data.data.completed) {
+                        self.formRef.current.setFieldsValue({
+                            completed: moment.utc(
+                                new Date(res.data.data.completed),
+                                "YYYY/MM/DD"
+                            ),
+                        });
+                    }
                     self.setState({
                         attachments: JSON.parse(res.data.data.files),
                     });
@@ -321,9 +334,15 @@ class UserEdit extends React.Component {
         values.id = this.id;
         values.files = JSON.stringify(this.state.attachments);
         values.received = values.received.format("YYYY-MM-DD");
-        values.approved = values.approved.format("YYYY-MM-DD");
-        values.quoted = values.quoted.format("YYYY-MM-DD");
-        values.completed = values.completed.format("YYYY-MM-DD");
+        if (values.approved) {
+            values.approved = values.approved.format("YYYY-MM-DD");
+        }
+        if (values.quoted) {
+            values.quoted = values.quoted.format("YYYY-MM-DD");
+        }
+        if (values.completed) {
+            values.completed = values.completed.format("YYYY-MM-DD");
+        }
 
         let self = this;
         const { cookies } = self.props;
@@ -404,6 +423,16 @@ class UserEdit extends React.Component {
         return null;
     }
 
+    onCustomerChange(id) {
+        for (let i = 0; i < this.state.customers.length; i++) {
+            if (id == this.state.customers[i].id) {
+                this.formRef.current.setFieldsValue({
+                    drop: this.state.customers[i].drop,
+                });
+            }
+        }
+    }
+
     render() {
         const { cookies } = this.props;
         return (
@@ -447,7 +476,7 @@ class UserEdit extends React.Component {
                             style={{ width: "100%" }}
                             placeholder="Please select a customer"
                             optionFilterProp="children"
-                            //onChange={onChange}
+                            onChange={this.onCustomerChange}
                             filterOption={(input, option) =>
                                 option.key
                                     .toLowerCase()
@@ -486,7 +515,10 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
-                        <Input placeholder="Please input the dropoff location" disabled/>
+                        <Input
+                            placeholder="Please input the dropoff location"
+                            disabled
+                        />
                     </Form.Item>
 
                     <Form.Item
@@ -768,7 +800,7 @@ class UserEdit extends React.Component {
                         name="approved"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
@@ -784,7 +816,7 @@ class UserEdit extends React.Component {
                         name="quoted"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
