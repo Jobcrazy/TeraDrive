@@ -146,17 +146,15 @@ class UserEdit extends React.Component {
 
                     <Form.Item
                         colon={false}
-                        label="Content"
+                        label="Status"
                         name="content"
                         rules={[
                             {
-                                required: true,
-                                message: "The length is at least 1",
-                                min: 1,
+                                required: true
                             },
                         ]}
                     >
-                        <TextArea placeholder="Status Content" maxLength="250"/>
+                         <Input placeholder="In put the status" />
                     </Form.Item>
 
                     <Form.Item

@@ -141,7 +141,7 @@ class Case extends React.Component {
                 {
                     title: "Assigned To",
                     render: function (text, record, index) {
-                        return constant.assigned[record.assigned - 1].text;
+                        return "test";// constant.assigned[record.assigned - 1].text;
                     },
                 },
                 {

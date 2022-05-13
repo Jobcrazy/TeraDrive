@@ -165,7 +165,7 @@ class Status extends React.Component {
     }
 
     componentDidMount() {
-        window.document.title = "status - Template - TeraDrive";
+        window.document.title = "Status - Template - TeraDrive";
 
         this.loadPage(1, 20);
 
