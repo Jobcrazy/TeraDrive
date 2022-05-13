@@ -26,6 +26,10 @@ const SMSPage = React.lazy(() => import("../template/sms/SMS"));
 const SMSEdit = React.lazy(() => import("../template/sms/Edit"));
 const EmailPage = React.lazy(() => import("../template/email/Email"));
 const EmailEdit = React.lazy(() => import("../template/email/Edit"));
+const StatusPage = React.lazy(() => import("../template/status/Status"));
+const StatusEdit = React.lazy(() => import("../template/status/Edit"));
+const ProgressPage = React.lazy(() => import("../template/progress/Progress"));
+const ProgressEdit = React.lazy(() => import("../template/progress/Edit"));
 const PasswordPage = React.lazy(() => import("../password/Password"));
 const LogoutPage = React.lazy(() => import("../logout/Logout"));
 
@@ -153,7 +157,7 @@ class Main extends React.Component {
                             </Menu.Item>
                             <Menu.SubMenu
                                 key="/main/templates"
-                                title="Templates"
+                                title="Setting"
                                 icon={<FileWordOutlined />}
                             >
                                 <Menu.Item key="/main/templates/email">
@@ -161,6 +165,12 @@ class Main extends React.Component {
                                 </Menu.Item>
                                 <Menu.Item key="/main/templates/sms">
                                     SMS
+                                </Menu.Item>
+                                <Menu.Item key="/main/templates/status">
+                                    Status
+                                </Menu.Item>
+                                <Menu.Item key="/main/templates/progress">
+                                    Progress
                                 </Menu.Item>
                             </Menu.SubMenu>
                             <Menu.Item
@@ -228,6 +238,26 @@ class Main extends React.Component {
                             <Route
                                 path="/main/templates/email/edit/:id"
                                 component={EmailEdit}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/status"
+                                component={StatusPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/status/edit/:id"
+                                component={StatusEdit}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/progress"
+                                component={ProgressPage}
+                                exact
+                            />
+                            <Route
+                                path="/main/templates/progress/edit/:id"
+                                component={ProgressEdit}
                                 exact
                             />
                             <Route

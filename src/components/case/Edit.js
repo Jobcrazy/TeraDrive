@@ -85,6 +85,7 @@ class UserEdit extends React.Component {
 
         this.state = {
             customers: [],
+            count: [],
             statements: [],
             attachments: [],
         };
@@ -199,7 +200,6 @@ class UserEdit extends React.Component {
         window.document.title = "Cases - TeraDrive";
 
         await this.loadCustumers();
-
         this.id = this.props.match.params.id;
         if ("0" !== this.id) {
             this.loadData(this.id);
@@ -374,7 +374,6 @@ class UserEdit extends React.Component {
                             })}
                         </Select>
                     </Form.Item>
-
                     <Form.Item
                         colon={false}
                         label="Status"
