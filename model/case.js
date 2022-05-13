@@ -17,10 +17,6 @@ const Case = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        drop: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
         notes: {
             type: DataTypes.STRING,
             allowNull: true,
