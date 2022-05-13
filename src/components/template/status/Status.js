@@ -47,7 +47,9 @@ class Status extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
-                            <Link to={"/main/templates/status/edit/" + record.id}>
+                            <Link
+                                to={"/main/templates/status/edit/" + record.id}
+                            >
                                 <Button
                                     type="primary"
                                     size="small"

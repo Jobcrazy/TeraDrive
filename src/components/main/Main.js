@@ -15,7 +15,6 @@ import {
 import store from "../../store";
 import "./Main.css";
 
-const WelcomePage = React.lazy(() => import("../welcome/Welcome"));
 const CasePage = React.lazy(() => import("../case/Case"));
 const CaseEdit = React.lazy(() => import("../case/Edit"));
 const StaffPage = React.lazy(() => import("../staff/Staff"));
@@ -130,13 +129,8 @@ class Main extends React.Component {
                             style={{ height: "100%", borderRight: 0 }}
                             onClick={this.onMenuItemClick}
                             theme="dark"
+                            defaultOpenKeys={["/main/templates"]}
                         >
-                            {/* <Menu.Item
-                                key="/main/welcome"
-                                icon={<FlagOutlined />}
-                            >
-                                Welcome
-                            </Menu.Item> */}
                             <Menu.Item
                                 key="/main/cases"
                                 icon={<DatabaseOutlined />}
@@ -157,7 +151,7 @@ class Main extends React.Component {
                             </Menu.Item>
                             <Menu.SubMenu
                                 key="/main/templates"
-                                title="Setting"
+                                title="Settings"
                                 icon={<FileWordOutlined />}
                             >
                                 <Menu.Item key="/main/templates/email">
@@ -190,11 +184,6 @@ class Main extends React.Component {
                     <Layout style={{ padding: "24px 24px 24px" }}>
                         <Switch>
                             <Redirect from="/main/" to="/main/cases" exact />
-                            {/* <Route
-                                path="/main/welcome"
-                                component={WelcomePage}
-                                exact
-                            /> */}
                             <Route
                                 path="/main/cases"
                                 component={CasePage}

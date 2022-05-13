@@ -143,20 +143,17 @@ class UserEdit extends React.Component {
                     onFinish={this.onFinish}
                     ref={this.formRef}
                 >
-
                     <Form.Item
                         colon={false}
-                        label="Content"
+                        label="Progress"
                         name="content"
                         rules={[
                             {
                                 required: true,
-                                message: "The length is at least 1",
-                                min: 1,
                             },
                         ]}
                     >
-                        <TextArea placeholder="progress Content" maxLength="250"/>
+                        <Input placeholder="Input the progress" />
                     </Form.Item>
 
                     <Form.Item

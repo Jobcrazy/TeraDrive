@@ -143,18 +143,17 @@ class UserEdit extends React.Component {
                     onFinish={this.onFinish}
                     ref={this.formRef}
                 >
-
                     <Form.Item
                         colon={false}
                         label="Status"
                         name="content"
                         rules={[
                             {
-                                required: true
+                                required: true,
                             },
                         ]}
                     >
-                         <Input placeholder="In put the status" />
+                        <Input placeholder="Input the status" />
                     </Form.Item>
 
                     <Form.Item

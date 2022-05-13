@@ -191,7 +191,7 @@ class progress extends React.Component {
                         icon={<UserAddOutlined />}
                         onClick={this.onAddSupplier}
                     >
-                        New progress
+                        New Progress
                     </Button>
                 </Col>
             </Row>
