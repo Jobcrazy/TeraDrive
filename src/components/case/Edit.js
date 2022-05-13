@@ -43,6 +43,9 @@ class UserEdit extends React.Component {
         this.onFinish = this.onFinish.bind(this);
         this.onGoback = this.onGoback.bind(this);
         this.loadCustumers = this.loadCustumers.bind(this);
+        this.loadStaff = this.loadStaff.bind(this);
+        this.loadStatus = this.loadStatus.bind(this);
+        this.loadProgress = this.loadProgress.bind(this);
         this.attachmentTable = this.attachmentTable.bind(this);
         this.delAttachment = this.delAttachment.bind(this);
         this.onUpload = this.onUpload.bind(this);
@@ -85,6 +88,9 @@ class UserEdit extends React.Component {
 
         this.state = {
             customers: [],
+            staff: [],
+            status: [],
+            progress: [],
             count: [],
             statements: [],
             attachments: [],
@@ -130,6 +136,96 @@ class UserEdit extends React.Component {
         }
     }
 
+    async loadStaff() {
+        this.setLoading(true);
+
+        let self = this;
+        const { cookies } = self.props;
+
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "/api/user/all",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            self.setLoading(false);
+            if (1 === res.data.code) {
+                self.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                self.setState({
+                    staff: res.data.data,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            self.setLoading(false);
+            message.error(err.message);
+        }
+    }
+
+    async loadStatus() {
+        this.setLoading(true);
+
+        let self = this;
+        const { cookies } = self.props;
+
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "/api/status/all",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            self.setLoading(false);
+            if (1 === res.data.code) {
+                self.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                self.setState({
+                    status: res.data.data,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            self.setLoading(false);
+            message.error(err.message);
+        }
+    }
+
+    async loadProgress() {
+        this.setLoading(true);
+
+        let self = this;
+        const { cookies } = self.props;
+
+        try {
+            let res = await axios({
+                method: "POST",
+                url: utils.getDomain() + "/api/progress/all",
+                headers: { token: cookies.get("token") },
+                data: {},
+            });
+
+            self.setLoading(false);
+            if (1 === res.data.code) {
+                self.props.history.push("/login");
+            } else if (0 === res.data.code) {
+                self.setState({
+                    progress: res.data.data,
+                });
+            } else {
+                message.error(res.data.message);
+            }
+        } catch (err) {
+            self.setLoading(false);
+            message.error(err.message);
+        }
+    }
+
     loadData(id) {
         this.setLoading(true);
 
@@ -147,10 +243,12 @@ class UserEdit extends React.Component {
                 if (1 === res.data.code) {
                     self.props.history.push("/login");
                 } else if (0 === res.data.code) {
-                    console.log(moment.utc(
-                        new Date(res.data.data.received),
-                        "America/Vancouver"
-                    ));
+                    console.log(
+                        moment.utc(
+                            new Date(res.data.data.received),
+                            "America/Vancouver"
+                        )
+                    );
                     self.formRef.current.setFieldsValue({
                         clientId: res.data.data.client.id,
                         status: res.data.data.status,
@@ -158,7 +256,6 @@ class UserEdit extends React.Component {
                         assigned: res.data.data.assigned,
                         notes: res.data.data.notes,
                         type: res.data.data.type,
-
                         malfunction: res.data.data.malfunction,
                         quote: res.data.data.quote,
                         paid: res.data.data.paid,
@@ -200,6 +297,9 @@ class UserEdit extends React.Component {
         window.document.title = "Cases - TeraDrive";
 
         await this.loadCustumers();
+        await this.loadStaff();
+        await this.loadStatus();
+        await this.loadProgress();
         this.id = this.props.match.params.id;
         if ("0" !== this.id) {
             this.loadData(this.id);
@@ -396,10 +496,10 @@ class UserEdit extends React.Component {
                                     .indexOf(input.toLowerCase()) >= 0
                             }
                         >
-                            {constant.status.map((value, index) => {
+                            {this.state.status.map((value, index) => {
                                 return (
                                     <Option value={value.id} key={value.id}>
-                                        {value.text}
+                                        {value.content}
                                     </Option>
                                 );
                             })}
@@ -428,10 +528,10 @@ class UserEdit extends React.Component {
                                     .indexOf(input.toLowerCase()) >= 0
                             }
                         >
-                            {constant.progress.map((value, index) => {
+                            {this.state.progress.map((value, index) => {
                                 return (
                                     <Option value={value.id} key={value.id}>
-                                        {value.text}
+                                        {value.content}
                                     </Option>
                                 );
                             })}
@@ -452,17 +552,16 @@ class UserEdit extends React.Component {
                             style={{ width: "100%" }}
                             placeholder="Please select"
                             optionFilterProp="children"
-                            //onChange={onChange}
                             filterOption={(input, option) =>
                                 option.children
                                     .toLowerCase()
                                     .indexOf(input.toLowerCase()) >= 0
                             }
                         >
-                            {constant.assigned.map((value, index) => {
+                            {this.state.staff.map((value, index) => {
                                 return (
                                     <Option value={value.id} key={value.id}>
-                                        {value.text}
+                                        {value.username}
                                     </Option>
                                 );
                             })}
@@ -494,7 +593,6 @@ class UserEdit extends React.Component {
                     >
                         <Input placeholder="Device Type" />
                     </Form.Item>
-
 
                     <Form.Item
                         colon={false}
