@@ -108,6 +108,21 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
     }
 });
 
+router.post("/all", auth, checkAdmin, async function (req, res, next) {
+    try {
+        const count = await User.count();
+        let users = await User.findAll(
+            {
+                attributes: ['id', 'username']
+            });
+
+        utils.SendResult(res, users);
+    } catch (error) {
+        console.log(error);
+        utils.SendError(res, error);
+    }
+});
+
 router.post("/detail", auth, checkAdmin, async function (req, res, next) {
     try {
         let user = await User.findOne({

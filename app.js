@@ -44,7 +44,6 @@ app.use("/api/case", caseRouter);
 app.use("/api/template/sms", smsRouter);
 app.use("/api/template/email", emailRouter);
 app.use("/api/file", fileRouter);
-
 app.use("/api/status", statusRouter);
 app.use("/api/progress", progressRouter);
 module.exports = app;
