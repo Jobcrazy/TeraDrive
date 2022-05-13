@@ -263,7 +263,7 @@ class UserEdit extends React.Component {
                         format: res.data.data.format,
                         target: res.data.data.target,
                         referer: res.data.data.referer,
-                        drop: res.data.data.drop,
+                        drop: res.data.data.client.drop,
                         received: moment.utc(
                             new Date(res.data.data.received),
                             "YYYY/MM/DD"
@@ -482,11 +482,11 @@ class UserEdit extends React.Component {
                         name="drop"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                             },
                         ]}
                     >
-                        <Input placeholder="Please input the dropoff location" />
+                        <Input placeholder="Please input the dropoff location" disabled/>
                     </Form.Item>
 
                     <Form.Item

@@ -96,7 +96,7 @@ class Case extends React.Component {
                 {
                     title: "DropOff Location",
                     render: function (text, record, index) {
-                        return record.drop;
+                        return record.client.drop;
                     },
                 },
                 {
