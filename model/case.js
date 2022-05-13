@@ -62,7 +62,7 @@ const Case = sequelize.define(
             defaultValue: "",
         },
         assigned: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         received: {

@@ -28,8 +28,6 @@ router.post("/list", auth, async function (req, res, next) {
             whereCondition.status = status;
         }
 
-        console.log(whereCondition);
-
         const count = await Case.count();
         let cases = await Case.findAll({
             where: whereCondition,
