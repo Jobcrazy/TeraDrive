@@ -1,13 +1,6 @@
 .logo {
-    float: left;
-    width: 100%;
-    height: 50px;
-    margin: 0 0 16px 0;
-    color: white;
-    font-size: 1.2em;
-    background-color: #001529;
     text-align: center;
-    padding-top: 15px;
+    margin: 2em;
 }
 
 .container {
