@@ -94,7 +94,11 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await User.count();
-        let users = await User.findAll({ offset, limit });
+        let users = await User.findAll({
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+        });
 
         let data = {
             count,
@@ -111,10 +115,9 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
 router.post("/all", auth, checkAdmin, async function (req, res, next) {
     try {
         const count = await User.count();
-        let users = await User.findAll(
-            {
-                attributes: ['id', 'username']
-            });
+        let users = await User.findAll({
+            attributes: ["id", "username"],
+        });
 
         utils.SendResult(res, users);
     } catch (error) {

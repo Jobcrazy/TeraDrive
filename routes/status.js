@@ -15,7 +15,11 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await Status.count();
-        let statuses = await Status.findAll({ offset, limit });
+        let statuses = await Status.findAll({
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+        });
 
         let data = {
             count,

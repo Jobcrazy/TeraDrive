@@ -15,7 +15,11 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await Client.count();
-        let customers = await Client.findAll({ offset, limit });
+        let customers = await Client.findAll({
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+        });
 
         let data = {
             count,
@@ -34,7 +38,7 @@ router.post("/list", auth, async function (req, res, next) {
  */
 router.post("/all", auth, async function (req, res, next) {
     try {
-        let customers = await Client.findAll();
+        let customers = await Client.findAll({ order: [["id", "DESC"]] });
         utils.SendResult(res, customers);
     } catch (error) {
         console.log(error);

@@ -16,7 +16,11 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await Email.count();
-        let cases = await Email.findAll({offset, limit});
+        let cases = await Email.findAll({
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+        });
 
         let data = {
             count,

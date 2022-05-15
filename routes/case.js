@@ -20,20 +20,22 @@ router.post("/list", auth, async function (req, res, next) {
 
         let whereCondition = {};
 
-        if(assigned){
+        if (assigned) {
             whereCondition.assigned = assigned;
         }
 
-        if(status){
+        if (status) {
             whereCondition.status = status;
         }
 
         const count = await Case.count();
         let cases = await Case.findAll({
             where: whereCondition,
-            offset:offset,
-            limit:limit,
-            include: Client });
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+            include: Client,
+        });
 
         let data = {
             count,
