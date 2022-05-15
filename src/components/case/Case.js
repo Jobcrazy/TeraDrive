@@ -803,6 +803,7 @@ class Case extends React.Component {
                     </Form>
 
                     <div
+                        //style={{ maxHeight: "50vh", overflowY: "auto" }}
                         dangerouslySetInnerHTML={{
                             __html: this.state.emailContent,
                         }}

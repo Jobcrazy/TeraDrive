@@ -494,11 +494,16 @@ class UserEdit extends React.Component {
                                             " " +
                                             value.lastname +
                                             " " +
+                                            value.phone + 
+                                            " " +
+                                            value.email +
+                                            " " +
                                             value.company
                                         }
                                     >
-                                        {value.firstname} {value.lastname} -{" "}
-                                        {value.company}
+                                        {value.id}. {value.firstname}{" "}
+                                        {value.lastname} ({value.phone}{"  "}
+                                        {value.email} {value.company})
                                     </Option>
                                 );
                             })}
