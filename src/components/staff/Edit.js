@@ -156,8 +156,7 @@ class UserEdit extends React.Component {
                         rules={[
                             {
                                 required: true,
-                                message: "The length is at least 5",
-                                min: 5,
+                                message: "The length is at least 1",
                             },
                         ]}
                     >

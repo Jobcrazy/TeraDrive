@@ -494,7 +494,7 @@ class UserEdit extends React.Component {
                                             " " +
                                             value.lastname +
                                             " " +
-                                            value.phone + 
+                                            value.phone +
                                             " " +
                                             value.email +
                                             " " +
@@ -502,7 +502,8 @@ class UserEdit extends React.Component {
                                         }
                                     >
                                         {value.id}. {value.firstname}{" "}
-                                        {value.lastname} ({value.phone}{"  "}
+                                        {value.lastname} ({value.phone}
+                                        {"  "}
                                         {value.email} {value.company})
                                     </Option>
                                 );
@@ -766,7 +767,26 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
-                        <Input placeholder="Target Drive" />
+                        <Select
+                            showSearch
+                            style={{ width: "100%" }}
+                            placeholder="Target Drive"
+                            optionFilterProp="children"
+                            //onChange={onChange}
+                            filterOption={(input, option) =>
+                                option.children
+                                    .toLowerCase()
+                                    .indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            {constant.target.map((value, index) => {
+                                return (
+                                    <Option value={value.id} key={value.id}>
+                                        {value.text}
+                                    </Option>
+                                );
+                            })}
+                        </Select>
                     </Form.Item>
 
                     <Form.Item
@@ -798,23 +818,6 @@ class UserEdit extends React.Component {
                             placeholder="Received on"
                         />
                     </Form.Item>
-
-                    <Form.Item
-                        colon={false}
-                        label="Approved on"
-                        name="approved"
-                        rules={[
-                            {
-                                required: false,
-                            },
-                        ]}
-                    >
-                        <DatePicker
-                            picker="date"
-                            format={"YYYY/MM/DD"}
-                            placeholder="Approved on"
-                        />
-                    </Form.Item>
                     <Form.Item
                         colon={false}
                         label="Quote sent on"
@@ -829,6 +832,22 @@ class UserEdit extends React.Component {
                             picker="date"
                             format={"YYYY/MM/DD"}
                             placeholder="Quote sent on"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        colon={false}
+                        label="Approved on"
+                        name="approved"
+                        rules={[
+                            {
+                                required: false,
+                            },
+                        ]}
+                    >
+                        <DatePicker
+                            picker="date"
+                            format={"YYYY/MM/DD"}
+                            placeholder="Approved on"
                         />
                     </Form.Item>
                     <Form.Item

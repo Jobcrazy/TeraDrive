@@ -856,16 +856,16 @@ class Case extends React.Component {
                                     {record.referer}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Target Drive">
-                                    {record.target}
+                                    {constant.target[record.target].text}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Received On">
                                     {record.received}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="Approved On">
-                                    {record.approved}
-                                </Descriptions.Item>
                                 <Descriptions.Item label="Quote sent on">
                                     {record.quoted}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Approved On">
+                                    {record.approved}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Completed on">
                                     {record.completed}
