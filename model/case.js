@@ -94,6 +94,10 @@ const Case = sequelize.define(
     },
     {
         timestamps: false,
+        indexes: [
+            { fields: ["status"], unique: false },
+            { fields: ["progress"], unique: false },
+        ],
     }
 );
 

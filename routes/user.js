@@ -8,6 +8,10 @@ const User = require("../model/user");
 
 router.post("/create", auth, checkAdmin, async function (req, res, next) {
     try {
+        if (!req.body.username.trim().length) {
+            return utils.SendError(res, errorCode.error_empty_username);
+        }
+
         await User.create({
             username: req.body.username,
             password: req.body.password,

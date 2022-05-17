@@ -4,6 +4,7 @@ const auth = require("../common/auth");
 const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
 const Progress = require("../model/progress");
+const Case = require("../model/case");
 
 /**
  * Get all progress
@@ -106,6 +107,16 @@ router.post("/update", auth, async function (req, res, next) {
  */
 router.post("/delete", auth, async function (req, res, next) {
     try {
+        let usedCase = await Case.findOne({
+            where:{
+                progress: req.body.id,
+            }
+        });
+
+        if(usedCase){
+            return utils.SendError(res, errorCode.error_progress_used);
+        }
+
         await Progress.destroy({
             where: {
                 id: req.body.id,

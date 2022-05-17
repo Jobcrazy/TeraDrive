@@ -43,4 +43,16 @@ module.exports = {
         code: 10,
         message: "Invalid number or content",
     },
+    error_status_used: {
+        code: 11,
+        message: "This status is used by one or more cases",
+    },
+    error_progress_used: {
+        code: 11,
+        message: "This progress is used by one or more cases",
+    },
+    error_empty_username: {
+        code: 11,
+        message: "Username can't be empty",
+    },
 };

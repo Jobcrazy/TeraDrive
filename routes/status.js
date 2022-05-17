@@ -4,6 +4,7 @@ const auth = require("../common/auth");
 const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
 const Status = require("../model/status");
+const Case = require("../model/case");
 
 /**
  * Get all status
@@ -106,6 +107,16 @@ router.post("/update", auth, async function (req, res, next) {
  */
 router.post("/delete", auth, async function (req, res, next) {
     try {
+        let usedCase = await Case.findOne({
+            where:{
+                status: req.body.id,
+            }
+        });
+
+        if(usedCase){
+            return utils.SendError(res, errorCode.error_status_used);
+        }
+
         await Status.destroy({
             where: {
                 id: req.body.id,
