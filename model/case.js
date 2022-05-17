@@ -52,9 +52,8 @@ const Case = sequelize.define(
             allowNull: false,
         },
         target: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: "",
         },
         referer: {
             type: DataTypes.STRING,
