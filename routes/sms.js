@@ -5,8 +5,9 @@ const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
 const SMS = require("../model/sms");
 const config = require("config");
-const PNF = require('google-libphonenumber').PhoneNumberFormat;
-const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+const PNF = require("google-libphonenumber").PhoneNumberFormat;
+const phoneUtil =
+    require("google-libphonenumber").PhoneNumberUtil.getInstance();
 
 /**
  * Get all SMS template
@@ -18,7 +19,11 @@ router.post("/list", auth, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await SMS.count();
-        let cases = await SMS.findAll({offset, limit});
+        let cases = await SMS.findAll({
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+        });
 
         let data = {
             count,
@@ -115,17 +120,20 @@ router.post("/send", auth, async function (req, res, next) {
         }
 
         const config_sms = config.get("sms");
-        const number = phoneUtil.parseAndKeepRawInput(req.body.phone, config_sms.country);
+        const number = phoneUtil.parseAndKeepRawInput(
+            req.body.phone,
+            config_sms.country
+        );
         const textToNumber = phoneUtil.format(number, PNF.E164);
         const accountSid = config_sms.id;
         const authToken = config_sms.key;
         const textFromNumber = config_sms.from;
-        const smsClient = require('twilio')(accountSid, authToken);
+        const smsClient = require("twilio")(accountSid, authToken);
 
         let message = await smsClient.messages.create({
             body: req.body.content,
             from: textFromNumber,
-            to: textToNumber
+            to: textToNumber,
         });
         console.log(message);
 

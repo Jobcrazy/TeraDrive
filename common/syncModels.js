@@ -5,8 +5,11 @@ const Case = require("../model/case");
 const File = require("../model/file");
 const SMS = require("../model/sms");
 const Email = require("../model/email");
+const Status = require("../model/status");
+const Progress = require("../model/progress");
 const sequelize = require("./sequelize");
 const utils = require("./utils");
+
 
 // Create default admin
 function createAdmin() {

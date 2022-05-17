@@ -8,6 +8,10 @@ const User = require("../model/user");
 
 router.post("/create", auth, checkAdmin, async function (req, res, next) {
     try {
+        if (!req.body.username.trim().length) {
+            return utils.SendError(res, errorCode.error_empty_username);
+        }
+
         await User.create({
             username: req.body.username,
             password: req.body.password,
@@ -94,7 +98,11 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
         let offset = (page - 1) * limit;
 
         const count = await User.count();
-        let users = await User.findAll({ offset, limit });
+        let users = await User.findAll({
+            offset,
+            limit,
+            order: [["id", "DESC"]],
+        });
 
         let data = {
             count,
@@ -102,6 +110,20 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
         };
 
         utils.SendResult(res, data);
+    } catch (error) {
+        console.log(error);
+        utils.SendError(res, error);
+    }
+});
+
+router.post("/all", auth, checkAdmin, async function (req, res, next) {
+    try {
+        const count = await User.count();
+        let users = await User.findAll({
+            attributes: ["id", "username"],
+        });
+
+        utils.SendResult(res, users);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);

@@ -10,6 +10,8 @@ const caseRouter = require("./routes/case");
 const smsRouter = require("./routes/sms");
 const emailRouter = require("./routes/email");
 const fileRouter = require("./routes/file");
+const statusRouter = require("./routes/status");
+const progressRouter = require("./routes/progress");
 const app = express();
 
 app.set("trust proxy", 1);
@@ -42,5 +44,6 @@ app.use("/api/case", caseRouter);
 app.use("/api/template/sms", smsRouter);
 app.use("/api/template/email", emailRouter);
 app.use("/api/file", fileRouter);
-
+app.use("/api/status", statusRouter);
+app.use("/api/progress", progressRouter);
 module.exports = app;

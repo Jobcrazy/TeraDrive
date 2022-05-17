@@ -3,11 +3,11 @@ const router = express.Router();
 const auth = require("../common/auth");
 const errorCode = require("../common/errorCode");
 const utils = require("../common/utils");
+const Progress = require("../model/progress");
 const Case = require("../model/case");
-const Client = require("../model/client");
 
 /**
- * Get all cases
+ * Get all progress
  */
 router.post("/list", auth, async function (req, res, next) {
     try {
@@ -15,31 +15,16 @@ router.post("/list", auth, async function (req, res, next) {
         let limit = req.body.limit ? req.body.limit : 20;
         let offset = (page - 1) * limit;
 
-        let assigned = req.body.assigned;
-        let status = req.body.status;
-
-        let whereCondition = {};
-
-        if (assigned) {
-            whereCondition.assigned = assigned;
-        }
-
-        if (status) {
-            whereCondition.status = status;
-        }
-
-        const count = await Case.count();
-        let cases = await Case.findAll({
-            where: whereCondition,
+        const count = await Progress.count();
+        let progresses = await Progress.findAll({
             offset,
             limit,
             order: [["id", "DESC"]],
-            include: Client,
         });
 
         let data = {
             count,
-            data: cases,
+            data: progresses,
         };
 
         utils.SendResult(res, data);
@@ -50,24 +35,36 @@ router.post("/list", auth, async function (req, res, next) {
 });
 
 /**
- * Get specific case information
+ * Get all progress information
+ */
+router.post("/all", auth, async function (req, res, next) {
+    try {
+        let progresses = await Progress.findAll();
+        utils.SendResult(res, progresses);
+    } catch (error) {
+        console.log(error);
+        utils.SendError(res, error);
+    }
+});
+
+/**
+ * Get specific progress information
  */
 router.post("/detail", auth, async function (req, res, next) {
     try {
-        let result = await Case.findOne({
+        let progress = await Progress.findOne({
             where: {
                 id: req.body.id,
             },
             limit: 1,
-            include: Client,
         });
 
-        if (!result) {
-            utils.SendError(res, errorCode.error_no_case);
+        if (!progress) {
+            utils.SendError(res, errorCode.error_unknown);
             return;
         }
 
-        utils.SendResult(res, result);
+        utils.SendResult(res, progress);
     } catch (error) {
         console.log(error);
         utils.SendError(res, error);
@@ -75,11 +72,11 @@ router.post("/detail", auth, async function (req, res, next) {
 });
 
 /**
- * Create case
+ * Create progress
  */
 router.post("/create", auth, async function (req, res, next) {
     try {
-        await Case.create(req.body);
+        await Progress.create(req.body);
 
         utils.SendResult(res);
     } catch (error) {
@@ -89,11 +86,11 @@ router.post("/create", auth, async function (req, res, next) {
 });
 
 /**
- * Update case
+ * Update progress
  */
 router.post("/update", auth, async function (req, res, next) {
     try {
-        await Case.update(req.body, {
+        await Progress.update(req.body, {
             where: {
                 id: req.body.id,
             },
@@ -106,11 +103,21 @@ router.post("/update", auth, async function (req, res, next) {
 });
 
 /**
- * Delete case
+ * Delete progress
  */
 router.post("/delete", auth, async function (req, res, next) {
     try {
-        await Case.destroy({
+        let usedCase = await Case.findOne({
+            where:{
+                progress: req.body.id,
+            }
+        });
+
+        if(usedCase){
+            return utils.SendError(res, errorCode.error_progress_used);
+        }
+
+        await Progress.destroy({
             where: {
                 id: req.body.id,
             },
