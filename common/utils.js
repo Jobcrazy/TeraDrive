@@ -4,17 +4,16 @@ const crypto = require("crypto");
 const error_code = require("./errorCode");
 
 const Utils = {
-    //创建时间格式化显示
+    //Create time display
     dateFtt: function (fmt, date) {
-        //author: meizz
         let o = {
-            "M+": date.getMonth() + 1, //月份
-            "d+": date.getDate(), //日
-            "h+": date.getHours(), //小时
-            "m+": date.getMinutes(), //分
-            "s+": date.getSeconds(), //秒
-            "q+": Math.floor((date.getMonth() + 3) / 3), //季度
-            S: date.getMilliseconds(), //毫秒
+            "M+": date.getMonth() + 1, //Month
+            "d+": date.getDate(), //Day
+            "h+": date.getHours(), //Hour
+            "m+": date.getMinutes(), //Minute
+            "s+": date.getSeconds(), //Second
+            "q+": Math.floor((date.getMonth() + 3) / 3), //Quarter
+            S: date.getMilliseconds(), //Milliseconds
         };
         if (/(y+)/.test(fmt))
             fmt = fmt.replace(
@@ -64,6 +63,7 @@ const Utils = {
         }
         return true;
     },
+    // API send result response
     SendResult: function (res, data) {
         let result = {
             code: error_code.error_success.code,
@@ -76,6 +76,7 @@ const Utils = {
 
         res.send(result);
     },
+    // API send error response
     SendError: function (res, err) {
         let result = {
             code: err && err.code ? err.code : error_code.error_unknown.code,
@@ -86,6 +87,7 @@ const Utils = {
         };
         res.send(result);
     },
+    // Calculate MD5 for file storage
     CalcFileMD5: function (filePath) {
         return new Promise(function (resolve, reject) {
             const stream = fs.createReadStream(filePath);
