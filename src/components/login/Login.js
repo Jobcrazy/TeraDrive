@@ -123,6 +123,7 @@ class Login extends React.Component {
                         </Form.Item>
 
                         <Form.Item>
+                            {/* Click to login */}
                             <Button type="primary" htmlType="submit" block>
                                 Login
                             </Button>

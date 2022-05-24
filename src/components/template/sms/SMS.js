@@ -48,6 +48,7 @@ class SMS extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* Link to edit SMS page */}
                             <Link to={"/main/templates/sms/edit/" + record.id}>
                                 <Button
                                     type="primary"
@@ -63,6 +64,7 @@ class SMS extends React.Component {
                                 title="Are you sure to delete this template?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* Click to dedlete SMS template */}
                                 <Button danger size="small">
                                     Delete
                                 </Button>
@@ -185,6 +187,7 @@ class SMS extends React.Component {
     onTableTitle() {
         return (
             <Row>
+                {/* Click to create SMS template */}
                 <Col span="18"></Col>
                 <Col span="6" style={{ textAlign: "right" }}>
                     <Button

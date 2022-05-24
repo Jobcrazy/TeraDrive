@@ -7,7 +7,7 @@ import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
 import store from "../../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+// This page showing all email template created by user
 class SMS extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,
@@ -48,6 +48,7 @@ class SMS extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* Link to edit email template page */}
                             <Link to={"/main/templates/email/edit/" + record.id}>
                                 <Button
                                     type="primary"
@@ -63,6 +64,7 @@ class SMS extends React.Component {
                                 title="Are you sure to delete this template?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* delete email */}
                                 <Button danger size="small">
                                     Delete
                                 </Button>

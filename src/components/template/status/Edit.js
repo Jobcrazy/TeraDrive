@@ -6,7 +6,7 @@ import axios from "axios";
 import store from "../../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+// Edit / Create Status
 const { TextArea } = Input;
 
 class UserEdit extends React.Component {

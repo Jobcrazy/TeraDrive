@@ -9,7 +9,7 @@ import { withCookies, Cookies } from "react-cookie";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./Edit.css";
-
+// User Create/ Edit each email template
 const { TextArea } = Input;
 
 class UserEdit extends React.Component {
@@ -205,6 +205,7 @@ class UserEdit extends React.Component {
                             offset: 3,
                         }}
                     >
+                    {/* Click to Save and return to Email Template list Page */}
                         <Button type="primary" htmlType="submit">
                             Save
                         </Button>

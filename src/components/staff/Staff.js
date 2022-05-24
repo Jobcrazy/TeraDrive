@@ -55,6 +55,7 @@ class Staff extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* Link to edit staff page */}
                             <Link to={"/main/staff/edit/" + record.id}>
                                 <Button
                                     type="primary"
@@ -70,6 +71,7 @@ class Staff extends React.Component {
                                 title="Are you sure to delete this staff?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* Delete staff */}
                                 <Button danger size="small">
                                     Delete
                                 </Button>

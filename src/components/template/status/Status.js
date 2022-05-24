@@ -7,7 +7,7 @@ import { UserAddOutlined, EditOutlined } from "@ant-design/icons";
 import store from "../../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+// This page showing all status created by user
 class Status extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,
@@ -48,6 +48,7 @@ class Status extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* Link to  Edit Status Page*/}
                             <Link
                                 to={"/main/templates/status/edit/" + record.id}
                             >
@@ -65,6 +66,7 @@ class Status extends React.Component {
                                 title="Are you sure to delete this template?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* Click to Delete status */}
                                 <Button danger size="small">
                                     Delete
                                 </Button>
@@ -113,7 +115,7 @@ class Status extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Delete Status API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/status/delete",

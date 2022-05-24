@@ -265,6 +265,7 @@ class UserEdit extends React.Component {
                         target: res.data.data.target,
                         referer: res.data.data.referer,
                         drop: res.data.data.client.drop,
+                        // Set date
                         received: moment.utc(
                             new Date(res.data.data.received),
                             "YYYY/MM/DD"
@@ -899,6 +900,7 @@ class UserEdit extends React.Component {
                             offset: 3,
                         }}
                     >
+                    {/* Click to Save and return to Case list Page */}
                         <Button type="primary" htmlType="submit">
                             Save
                         </Button>

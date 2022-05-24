@@ -106,6 +106,7 @@ class Password extends React.Component {
                     </Form.Item>
 
                     <Form.Item>
+                        {/* Click to Submit password*/}
                         <Button type="primary" htmlType="submit" block>
                             Submit
                         </Button>

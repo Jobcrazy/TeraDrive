@@ -151,6 +151,7 @@ class Case extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* Allow user send SMS to each customer */}
                             <Tooltip placement="top" title="SMS">
                                 <Button
                                     type="primary"
@@ -164,7 +165,7 @@ class Case extends React.Component {
                                     }}
                                 />
                             </Tooltip>
-
+                            {/* Allow user send Email to each customer */}
                             <Tooltip placement="top" title="Email">
                                 <Button
                                     type="primary"
@@ -179,6 +180,7 @@ class Case extends React.Component {
                                 />
                             </Tooltip>
 
+                            {/* link to each edit case page*/}
                             <Tooltip placement="top" title="Edit">
                                 <Link to={"/main/cases/edit/" + record.id}>
                                     <Button
@@ -194,6 +196,7 @@ class Case extends React.Component {
                                 title="Are you sure to delete this case?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* Allow user Delete each case */}
                                 <Tooltip placement="top" title="Delete">
                                     <Button
                                         danger
@@ -245,7 +248,6 @@ class Case extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
         try {
             let res = await axios({
                 method: "POST",

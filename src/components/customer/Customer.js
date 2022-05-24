@@ -74,6 +74,7 @@ class Customer extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* To each edit customer page */}
                             <Link to={"/main/customer/edit/" + record.id}>
                                 <Button
                                     type="primary"
@@ -89,6 +90,7 @@ class Customer extends React.Component {
                                 title="Are you sure to delete this customer?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* click to delete each customer */}
                                 <Button danger size="small">
                                     Delete
                                 </Button>
@@ -137,7 +139,7 @@ class Customer extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Delete Customer API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/client/delete",
@@ -164,7 +166,7 @@ class Customer extends React.Component {
         this.setLoading(true);
 
         const { cookies } = this.props;
-
+        // Get all customers
         try {
             let res = await axios({
                 method: "POST",
@@ -244,6 +246,7 @@ class Customer extends React.Component {
                 rowKey={(record) => record.id}
                 expandable={{
                     expandedRowRender: (record) => (
+                        // Click "+" ===> Showing hidden information. 
                         <Descriptions size="small" column={2}>
                             <Descriptions.Item label="Address">
                                 {record.address}

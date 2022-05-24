@@ -48,6 +48,7 @@ class progress extends React.Component {
                     width: 150,
                     render: (text, record) => (
                         <Space>
+                            {/* Link to edit progress page */}
                             <Link to={"/main/templates/progress/edit/" + record.id}>
                                 <Button
                                     type="primary"
@@ -63,6 +64,7 @@ class progress extends React.Component {
                                 title="Are you sure to delete this template?"
                                 onConfirm={() => this.handleDel(record.id)}
                             >
+                                {/* Click to delete progress */}
                                 <Button danger size="small">
                                     Delete
                                 </Button>
@@ -111,7 +113,7 @@ class progress extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        //Delete progress API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/progress/delete",
@@ -139,7 +141,7 @@ class progress extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Get all progress
         axios({
             method: "POST",
             url: utils.getDomain() + "api/progress/list",

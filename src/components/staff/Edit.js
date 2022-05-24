@@ -178,7 +178,7 @@ class UserEdit extends React.Component {
                     >
                         <Input placeholder="Password" type="password" />
                     </Form.Item>
-
+                    {/* Check if the new staff is admin */}
                     <Form.Item colon={false} label="Is Admin">
                         <Checkbox
                             checked={this.state.isAdmin}
