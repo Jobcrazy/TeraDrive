@@ -605,6 +605,7 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
+                        {/* Select assign to  staff*/}
                         <Select
                             showSearch
                             style={{ width: "100%" }}
@@ -773,6 +774,7 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
+                        {/* Select target drive */}
                         <Select
                             showSearch
                             style={{ width: "100%" }}
@@ -880,6 +882,7 @@ class UserEdit extends React.Component {
                             offset: 3,
                         }}
                     >
+                        {/* upload file */}
                         <Upload
                             name="file"
                             action="/api/file/upload"
