@@ -737,10 +737,6 @@ class Case extends React.Component {
                     title="Email"
                     visible={this.state.isEmailModalVisible}
                     onOk={() => {
-                        this.setState({
-                            isEmailModalVisible: false,
-                            emailContent: "",
-                        });
                         this.sendEmail(this.state.emailReceiver);
                     }}
                     onCancel={() => {
@@ -810,7 +806,6 @@ class Case extends React.Component {
                     </Form>
 
                     <div
-                        //style={{ maxHeight: "50vh", overflowY: "auto" }}
                         dangerouslySetInnerHTML={{
                             __html: this.state.emailContent,
                         }}
