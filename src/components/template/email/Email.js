@@ -28,6 +28,7 @@ class SMS extends React.Component {
             count: 0,
             limit: 20,
             bSearchMode: false,
+            // Email Template List
             columns: [
                 {
                     title: "ID",
@@ -110,7 +111,7 @@ class SMS extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Delete Email API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/template/email/delete",
@@ -138,7 +139,7 @@ class SMS extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Get Email List API 
         axios({
             method: "POST",
             url: utils.getDomain() + "api/template/email/list",
@@ -183,6 +184,7 @@ class SMS extends React.Component {
 
     onTableTitle() {
         return (
+            // Click button to go Create Email Page
             <Row>
                 <Col span="18"></Col>
                 <Col span="6" style={{ textAlign: "right" }}>

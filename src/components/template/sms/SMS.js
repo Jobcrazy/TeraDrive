@@ -28,6 +28,7 @@ class SMS extends React.Component {
             count: 0,
             limit: 20,
             bSearchMode: false,
+            //SMS table list
             columns: [
                 {
                     title: "ID",
@@ -81,7 +82,7 @@ class SMS extends React.Component {
 
         store.dispatch(action);
     }
-
+    // Pagenation
     onPageChange(page, size) {
         if (this.state.bSearchMode) {
             return;
@@ -100,7 +101,7 @@ class SMS extends React.Component {
 
         this.loadPage(page, size);
     }
-
+    // To edit SMS page
     onAddSupplier() {
         this.props.history.push("/main/templates/sms/edit/0");
     }
@@ -110,7 +111,7 @@ class SMS extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Delete SMS API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/template/sms/delete",
@@ -138,7 +139,7 @@ class SMS extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Get sms List from database
         axios({
             method: "POST",
             url: utils.getDomain() + "api/template/sms/list",

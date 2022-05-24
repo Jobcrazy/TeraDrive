@@ -28,6 +28,7 @@ class Status extends React.Component {
             count: 0,
             limit: 20,
             bSearchMode: false,
+            //Status List
             columns: [
                 {
                     title: "ID",
@@ -106,7 +107,7 @@ class Status extends React.Component {
     onAddSupplier() {
         this.props.history.push("/main/templates/status/edit/0");
     }
-
+    // Delete status API
     handleDel(id) {
         this.setLoading(true);
 
@@ -140,7 +141,7 @@ class Status extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Status List API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/status/list",
@@ -185,6 +186,7 @@ class Status extends React.Component {
 
     onTableTitle() {
         return (
+            // Click button to go Create New Status Page
             <Row>
                 <Col span="18"></Col>
                 <Col span="6" style={{ textAlign: "right" }}>

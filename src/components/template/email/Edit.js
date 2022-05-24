@@ -42,7 +42,7 @@ class UserEdit extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        //Email Detail API
         axios({
             method: "POST",
             url: utils.getDomain() + "/api/template/email/detail",
@@ -77,7 +77,7 @@ class UserEdit extends React.Component {
             value: ["/main/templates/email"],
         });
     }
-
+    // To Create Email Page or Edit Email Page
     onFinish(values) {
         this.setLoading(true);
 
@@ -120,6 +120,7 @@ class UserEdit extends React.Component {
 
     render() {
         return (
+            // Display Email Template Form. 
             <Col span="24" style={{ backgroundColor: "#fff" }}>
                 <Row style={{ marginBottom: "15px" }}>
                     <Button

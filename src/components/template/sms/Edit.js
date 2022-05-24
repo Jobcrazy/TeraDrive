@@ -38,7 +38,7 @@ class UserEdit extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Each SMS detail API
         axios({
             method: "POST",
             url: utils.getDomain() + "/api/template/sms/detail",
@@ -77,7 +77,7 @@ class UserEdit extends React.Component {
             value: ["/main/templates/sms"],
         });
     }
-
+    // if already has SMS, go to Edit detail Page, or to create new SMS Page.
     onFinish(values) {
         this.setLoading(true);
 
@@ -129,6 +129,7 @@ class UserEdit extends React.Component {
                         Back
                     </Button>
                 </Row>
+                {/* Place that allows user to edit SMS detail */}
                 <Form
                     name="control-ref"
                     labelCol={{

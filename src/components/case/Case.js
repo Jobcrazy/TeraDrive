@@ -81,6 +81,7 @@ class Case extends React.Component {
             limit: 20,
             smsReceiver: "",
             emailReceiver: "",
+            // Case List Title
             columns: [
                 {
                     title: "ID",
@@ -334,7 +335,7 @@ class Case extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Get Delete Case API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/case/delete",
@@ -369,7 +370,7 @@ class Case extends React.Component {
             data.assigned = this.currentStaffId;
             data.status = this.currentStatusId;
         }
-
+        // Get Case List API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/case/list",
@@ -809,7 +810,7 @@ class Case extends React.Component {
                         }}
                     />
                 </Modal>
-
+                {/* Showing the Hidden Information. */}
                 <Table
                     dataSource={this.state.dataSource}
                     columns={this.state.columns}

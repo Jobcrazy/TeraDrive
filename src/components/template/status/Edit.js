@@ -38,7 +38,7 @@ class UserEdit extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Get status detail API
         axios({
             method: "POST",
             url: utils.getDomain() + "/api/status/detail",
@@ -77,7 +77,7 @@ class UserEdit extends React.Component {
             value: ["/main/templates/status"],
         });
     }
-
+    //Create a new Status if dont have, or go to edit page. 
     onFinish(values) {
         this.setLoading(true);
 
@@ -129,6 +129,7 @@ class UserEdit extends React.Component {
                         Back
                     </Button>
                 </Row>
+                {/* Create New Status or Edit Status */}
                 <Form
                     name="control-ref"
                     labelCol={{

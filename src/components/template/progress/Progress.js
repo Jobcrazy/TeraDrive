@@ -28,6 +28,7 @@ class progress extends React.Component {
             count: 0,
             limit: 20,
             bSearchMode: false,
+            // Progress List
             columns: [
                 {
                     title: "ID",
@@ -183,6 +184,7 @@ class progress extends React.Component {
 
     onTableTitle() {
         return (
+            // Click to Create New Progress
             <Row>
                 <Col span="18"></Col>
                 <Col span="6" style={{ textAlign: "right" }}>

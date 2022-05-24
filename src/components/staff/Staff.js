@@ -28,6 +28,7 @@ class Staff extends React.Component {
             count: 0,
             limit: 20,
             bSearchMode: false,
+            // Staff List
             columns: [
                 {
                     title: "ID",
@@ -117,7 +118,7 @@ class Staff extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Delete Staff API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/user/delete",
