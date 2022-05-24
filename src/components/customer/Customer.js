@@ -37,6 +37,7 @@ class Customer extends React.Component {
             count: 0,
             limit: 20,
             bSearchMode: false,
+            // Customer List
             columns: [
                 {
                     title: "ID",

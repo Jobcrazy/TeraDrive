@@ -7,7 +7,7 @@ import store from "../../store";
 import "./Password.css";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+// Allow user change their own password
 class Password extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,
@@ -75,6 +75,7 @@ class Password extends React.Component {
 
     render() {
         return (
+            // Input inofrmation to change password
             <Row justify="center" align="middle" className="container">
                 <Form name="basic" onFinish={this.onFinish}>
                     <Form.Item

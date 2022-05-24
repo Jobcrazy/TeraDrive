@@ -85,7 +85,7 @@ class UserEdit extends React.Component {
 
     onFinish(values) {
         this.setLoading(true);
-
+        // if has staaff ==?update, if not ===> create a new one
         let url = "api/user/create";
         if ("0" !== this.id) {
             url = "api/user/update";
@@ -135,6 +135,7 @@ class UserEdit extends React.Component {
                         Back
                     </Button>
                 </Row>
+                {/* Enter Staff detail */}
                 <Form
                     name="control-ref"
                     labelCol={{

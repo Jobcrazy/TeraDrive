@@ -446,6 +446,7 @@ class UserEdit extends React.Component {
                         Back
                     </Button>
                 </Row>
+                {/* Edit & Create Case Information */}
                 <Form
                     name="control-ref"
                     labelCol={{
@@ -471,6 +472,7 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
+                        {/* Allow User selete customers */}
                         <Select
                             showSearch
                             style={{ width: "100%" }}
@@ -537,6 +539,7 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
+                        {/* Must select a status */}
                         <Select
                             showSearch
                             style={{ width: "100%" }}
@@ -569,10 +572,11 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
+                        {/* Select a progress */}
                         <Select
                             showSearch
                             style={{ width: "100%" }}
-                            placeholder="Please select a status"
+                            placeholder="Please select a progress"
                             optionFilterProp="children"
                             //onChange={onChange}
                             filterOption={(input, option) =>
@@ -735,6 +739,7 @@ class UserEdit extends React.Component {
                             },
                         ]}
                     >
+                        {/* Select a staff */}
                         <Select
                             showSearch
                             style={{ width: "100%" }}

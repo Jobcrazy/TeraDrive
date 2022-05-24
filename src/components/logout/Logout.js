@@ -2,7 +2,7 @@ import React from "react";
 import store from "../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+// User Click button to logout
 class Logout extends React.Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired,

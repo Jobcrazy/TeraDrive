@@ -191,6 +191,7 @@ class Staff extends React.Component {
 
     onTableTitle() {
         return (
+            // Click to go create staff page
             <Row>
                 <Col span="18"></Col>
                 <Col span="6" style={{ textAlign: "right" }}>

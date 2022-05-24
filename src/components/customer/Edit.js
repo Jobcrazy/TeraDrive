@@ -36,7 +36,7 @@ class UserEdit extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Client Detail API
         axios({
             method: "POST",
             url: utils.getDomain() + "/api/client/detail",
@@ -134,6 +134,7 @@ class UserEdit extends React.Component {
                         Back
                     </Button>
                 </Row>
+                {/* Enter Customer detail */}
                 <Form
                     name="control-ref"
                     labelCol={{
