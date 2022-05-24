@@ -554,6 +554,7 @@ class Case extends React.Component {
                         </Col>
                         <Col>
                             <Form.Item>
+                                {/* Click to search cases */}
                                 <Button
                                     type="primary"
                                     htmlType="submit"
@@ -565,6 +566,7 @@ class Case extends React.Component {
                         </Col>
                         <Col>
                             <Form.Item>
+                                {/* Click to showing all cases */}
                                 <Button
                                     type="primary"
                                     icon={<ControlOutlined />}
