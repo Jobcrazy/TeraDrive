@@ -116,7 +116,7 @@ router.post("/list", auth, checkAdmin, async function (req, res, next) {
     }
 });
 
-router.post("/all", auth, checkAdmin, async function (req, res, next) {
+router.post("/all", auth, async function (req, res, next) {
     try {
         const count = await User.count();
         let users = await User.findAll({
