@@ -40,7 +40,7 @@ class UserEdit extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Staff info API, to get staff detail
         axios({
             method: "POST",
             url: utils.getDomain() + "/api/user/detail",

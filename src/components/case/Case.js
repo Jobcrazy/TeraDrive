@@ -30,7 +30,7 @@ import {
 import store from "../../store";
 import { instanceOf } from "prop-types";
 import { withCookies, Cookies } from "react-cookie";
-
+// This Page allos user search cases, send SMS & MSG to each customer
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -423,7 +423,7 @@ class Case extends React.Component {
             this.setLoading(true);
 
             const { cookies } = this.props;
-
+            // SMS List API
             let res = await axios({
                 method: "POST",
                 url: utils.getDomain() + "api/template/sms/list",
@@ -451,7 +451,7 @@ class Case extends React.Component {
             this.setLoading(true);
 
             const { cookies } = this.props;
-
+            // Email API
             let res = await axios({
                 method: "POST",
                 url: utils.getDomain() + "api/template/email/list",
@@ -482,6 +482,7 @@ class Case extends React.Component {
     onTableTitle() {
         let self = this;
         return (
+            // Search by Staff and Status
             <Row>
                 <Col span="18">
                     <Form name="basic" onFinish={this.onSearch} layout="inline">
@@ -574,6 +575,7 @@ class Case extends React.Component {
                     </Form>
                 </Col>
                 <Col span="6" style={{ textAlign: "right" }}>
+                    {/* Click to create new case */}
                     <Button
                         type="primary"
                         icon={<UserAddOutlined />}
@@ -621,7 +623,7 @@ class Case extends React.Component {
             });
 
             this.setLoading(false);
-
+            //If login, continue, else showing error msg
             if (1 === res.data.code) {
                 return this.props.history.push("/login");
             } else if (0 === res.data.code) {

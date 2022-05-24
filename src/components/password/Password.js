@@ -48,7 +48,7 @@ class Password extends React.Component {
 
         let self = this;
         const { cookies } = self.props;
-
+        // Password API
         axios({
             method: "POST",
             url: utils.getDomain() + "api/user/password/",
