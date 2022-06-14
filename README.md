@@ -1,5 +1,5 @@
 ## Introduction
-Code for COMP 4800.
+The source code for CRM system of TeraDrive Recovery Company ([https://teradrive.ca](https://teradrive.ca/))
 
 ## Development team
 * **Backend Developer**: Hang Liu, Yixuan Pan
